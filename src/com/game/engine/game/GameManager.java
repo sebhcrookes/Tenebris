@@ -13,18 +13,14 @@ public class GameManager extends AbstractGame {
     public GameManager() {}
 
     @Override
-    public void init(GameContainer gc) {
-
-    }
+    public void init(GameContainer gc) {}
 
     @Override
-    public void update(GameContainer gc, float dt) {
-
-    }
+    public void update(GameContainer gc, float dt) {}
 
     @Override
     public void render(GameContainer gc, Renderer r) {
-        r.drawText("Test!", 10, 10, 0xFFFFFFFF);
+        r.drawText("Test!", 10, 10, 0xFFDC143C);
     }
 
     public void start() {

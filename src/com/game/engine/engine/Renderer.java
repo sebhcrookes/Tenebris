@@ -119,11 +119,7 @@ public class Renderer {
                 for(int x = 0; x < font.getWidths()[unicode]; x++) {
                     int pixelColour = font.getFontImage().getP()[x + font.getOffsets()[unicode] + y * font.getFontImage().getW()];
                     if(pixelColour != 0xffff00ff && pixelColour != 0xff0000ff && pixelColour != 0xffffff00) {
-                        if(pixelColour == colour) {
-                            setPixel(x + offX + offset, y + offY, colour);
-                        }else{
-                            setPixel(x + offX + offset, y + offY, pixelColour);
-                        }
+                        setPixel(x + offX + offset, y + offY, colour);
                     }
                 }
             }
