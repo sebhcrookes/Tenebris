@@ -2,14 +2,12 @@ package com.game.engine.engine;
 
 import com.game.engine.engine.gfx.Image;
 import com.game.engine.engine.gfx.ImageRequest;
-import com.game.engine.engine.gfx.ImageTile;
 import com.game.engine.game.GameManager;
 
 import java.awt.*;
 import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 
 import com.game.engine.engine.gfx.Font;
@@ -96,7 +94,6 @@ public class Renderer {
 
             p[index] = (newRed << 16 | newGreen << 8 | newBlue);
         }
-
     }
 
     /**
@@ -172,6 +169,18 @@ public class Renderer {
         }
     }
 
+    public void drawCurvedRect(int offX, int offY, int width, int height, int colour) {
+        for(int y = 1; y <= height - 1; y++) {
+            setPixel(offX, y + offY, colour);
+            setPixel(offX + width, y + offY, colour);
+        }
+
+        for(int x = 1; x <= width - 1; x++) {
+            setPixel(offX + x, offY, colour);
+            setPixel(offX + x, offY + height, colour);
+        }
+    }
+
     /**
      * Draws a full rectangle to the window at a specific location
      *
@@ -241,9 +250,8 @@ public class Renderer {
         int d = (5 - radius * 4)/4;
         int x = 0;
         int y = radius;
-        Color circleColor = Color.white;
 
-        do {
+        while(x <= y) {
             setPixel(offX + x, offY + y, colour);
             setPixel(offX + x, offY - y, colour);
             setPixel(offX - x, offY + y, colour);
@@ -252,14 +260,14 @@ public class Renderer {
             setPixel(offX + y, offY - x, colour);
             setPixel(offX - y, offY + x, colour);
             setPixel(offX - y, offY - x, colour);
-            if (d < 0) {
+            if(d < 0) {
                 d += 2 * x + 1;
-            } else {
+            }else{
                 d += 2 * (x - y) + 1;
                 y--;
             }
             x++;
-        } while (x <= y);
+        }
     }
 
     /**

@@ -17,7 +17,7 @@ public class Launcher {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(new JFrame(), message, "Fatal Error",
                     JOptionPane.ERROR_MESSAGE);
-            System.exit(0);
+            System.exit(1);
         }
     }
 

@@ -11,6 +11,5 @@ public class ImageRequest {
         this.zDepth = zDepth;
         this.offX = offX;
         this.offY = offY;
-
     }
 }
