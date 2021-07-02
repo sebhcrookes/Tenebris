@@ -4,7 +4,6 @@ import com.game.engine.engine.gfx.Image;
 import com.game.engine.engine.gfx.ImageRequest;
 import com.game.engine.game.GameManager;
 
-import java.awt.*;
 import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +12,9 @@ import java.util.Comparator;
 import com.game.engine.engine.gfx.Font;
 
 public class Renderer {
+
+    private GameContainer gc;
+    private GameManager gm;
 
     private ArrayList<ImageRequest> imageRequest = new ArrayList<ImageRequest>();
 
@@ -27,6 +29,10 @@ public class Renderer {
     private boolean processing = false;
 
     public Renderer(GameContainer gc, GameManager gm) {
+
+        this.gc = gc;
+        this.gm = gm;
+
         pW = gc.getWidth();
         pH = gc.getHeight();
         p = ((DataBufferInt)gc.getWindow().getImage().getRaster().getDataBuffer()).getData();
@@ -34,7 +40,7 @@ public class Renderer {
     }
 
     public void clear() {
-        Arrays.fill(p, GameManager.AIR_COLOUR);
+        Arrays.fill(p, gc.clearColour);
     }
 
     public void process() {

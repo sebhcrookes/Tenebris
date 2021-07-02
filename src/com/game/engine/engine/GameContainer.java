@@ -15,6 +15,8 @@ public class GameContainer implements Runnable {
     private Logger logger = new Logger();
     private EngineUtilities utilities = new EngineUtilities();
 
+    public int clearColour = 0xFF000000;
+
     private boolean running = false;
     public int fps = 0;
 

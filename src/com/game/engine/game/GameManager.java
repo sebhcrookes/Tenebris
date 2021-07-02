@@ -5,12 +5,9 @@ import com.game.engine.engine.GameContainer;
 import com.game.engine.engine.Renderer;
 import com.game.engine.engine.gui.GUIButton;
 import com.game.engine.engine.position.Vector2;
+import com.game.engine.engine.util.Logger;
 
 public class GameManager extends AbstractGame {
-
-    private GameContainer gc;
-    public static final int AIR_COLOUR = 0xFF000000;
-    public static final int TS = 16;
 
     public GUIButton button;
 
@@ -18,6 +15,9 @@ public class GameManager extends AbstractGame {
 
     @Override
     public void init(GameContainer gc) {
+
+        gc.clearColour = 0xFF000000;
+
         button = new GUIButton();
         button.setBounds(new Vector2(0,0), 100, 9);
         button.setText("Hello!");
@@ -37,11 +37,11 @@ public class GameManager extends AbstractGame {
     }
 
     public void start() {
-        gc = new GameContainer(this);
+        GameContainer gc = new GameContainer(this);
         gc.start(this);
     }
 
     private static void clicked(Object o) {
-        System.out.println("epic");
+        Logger.log(Logger.INFO, "Button clicked");
     }
 }

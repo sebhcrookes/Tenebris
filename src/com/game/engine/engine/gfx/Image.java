@@ -20,8 +20,6 @@ public class Image implements Serializable {
     public Image(String path) {
         this.path = path;
 
-        File pathFile = new File(path);
-
         BufferedImage image = null;
         try {
             image = ImageIO.read(Image.class.getResourceAsStream(path));
@@ -30,17 +28,16 @@ public class Image implements Serializable {
         } catch (Exception e) {
             try {
                 Graphics2D graphics = image.createGraphics();
-                graphics.setPaint ( new Color ( 255, 255, 255) );
+                graphics.setPaint ( new Color( 255, 255, 255) );
                 graphics.fillRect ( 0, 0, image.getWidth(), image.getHeight() );
-
-            }catch(Exception exception) {}
+            }catch(Exception ignored) {}
         }
 
         try {
             w = image.getWidth();
             h = image.getHeight();
             p = image.getRGB(0, 0, w, h, null, 0, w);
-        }catch(Exception e) {}
+        }catch(Exception ignored) {}
 
         this.image = image;
     }

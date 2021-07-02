@@ -17,10 +17,13 @@ public class Window {
 
     private GameContainer gc;
 
-    public Color backgroundColour = new Color(GameManager.AIR_COLOUR);
+    public Color backgroundColour;
 
     public Window(GameContainer gc) {
         this.gc = gc;
+
+        backgroundColour = new Color(gc.clearColour);
+
         image = new BufferedImage(gc.getWidth(), gc.getHeight(), BufferedImage.TYPE_INT_RGB);
         canvas = new Canvas();
         Dimension s = new Dimension((int)(gc.getWidth() * gc.getScale()), (int)(gc.getHeight() * gc.getScale()));

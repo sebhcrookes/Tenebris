@@ -18,7 +18,7 @@ public class GUIButton extends GameObject {
     private int mainColour = 0xFFBABABA;
     private int textColour = 0xFFFFFFFF;
 
-    private Consumer<Void> clickConsumer;
+    private Consumer clickConsumer;
 
     private boolean packRequest = false;
 
