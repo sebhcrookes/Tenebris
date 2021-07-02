@@ -9,7 +9,7 @@ import com.game.engine.game.GameManager;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
 
-public class GUIButton extends GameObject {
+public class GUIButton extends GUIObject {
 
     private int width, height;
     private String text = "";

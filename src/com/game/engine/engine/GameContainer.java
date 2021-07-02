@@ -13,7 +13,6 @@ public class GameContainer implements Runnable {
     private AbstractGame game;
     private EngineSettings settings = new EngineSettings();
     private Logger logger = new Logger();
-    private EngineUtilities utilities = new EngineUtilities();
 
     public int clearColour = 0xFF000000;
 
