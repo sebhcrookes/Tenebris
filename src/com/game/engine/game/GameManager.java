@@ -1,7 +1,7 @@
 package com.game.engine.game;
 
 import com.game.engine.engine.*;
-import com.game.engine.engine.gui.GUIDialog;
+import com.game.engine.engine.util.EngineFile;
 import com.game.engine.engine.util.EngineSettings;
 import com.game.engine.engine.util.State;
 
