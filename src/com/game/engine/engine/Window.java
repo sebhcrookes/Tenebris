@@ -36,8 +36,8 @@ public class Window {
         frame.setBackground(backgroundColour);
 
         try {
-            if (EngineSettings.getIconPath() != null) {
-                frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(EngineSettings.getIconPath())));
+            if (gc.getSettings().getIconPath() != null) {
+                frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(gc.getSettings().getIconPath())));
             }
         } catch(Exception e) {
             e.printStackTrace();
@@ -45,11 +45,11 @@ public class Window {
 
         frame.setLayout(new BorderLayout());
         try {
-            if(EngineSettings.getCursorPath() != null) {
+            if(gc.getSettings().getCursorPath() != null) {
                 BufferedImage cursorImage;
-                cursorImage = ImageIO.read(getClass().getResource(EngineSettings.getCursorPath()));
+                cursorImage = ImageIO.read(getClass().getResource(gc.getSettings().getCursorPath()));
                 cursorImage.createGraphics();
-                Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(0,0), EngineSettings.getTitle() + " Default Cursor");
+                Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(0,0), gc.getSettings().getTitle() + " Default Cursor");
                 frame.setCursor(cursor);
             }
         } catch (Exception e) {
@@ -57,6 +57,7 @@ public class Window {
         }
 
         frame.add(canvas, BorderLayout.CENTER);
+        frame.setMinimumSize(s);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
@@ -71,7 +72,7 @@ public class Window {
         g =  bs.getDrawGraphics();
     }
 
-    public void update() {
+    public void update(GameContainer gc) {
         g.drawImage(image,0,0,canvas.getWidth(),canvas.getHeight(),null);
         bs.show();
     }

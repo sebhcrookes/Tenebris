@@ -1,17 +1,16 @@
 package com.game.engine.engine;
 
-import com.game.engine.engine.util.EngineUtilities;
+import com.game.engine.engine.util.EngineSettings;
 import com.game.engine.engine.util.Logger;
-import com.game.engine.game.GameManager;
 
 public class GameContainer implements Runnable {
 
     private Thread thread;
     private Renderer renderer;
-    public Window window;
+    private Window window;
     private Input input;
-    private AbstractGame game;
-    private EngineSettings settings = new EngineSettings();
+    private Game game;
+    private EngineSettings settings;
     private Logger logger = new Logger();
 
     public int clearColour = 0xFF000000;
@@ -19,20 +18,32 @@ public class GameContainer implements Runnable {
     private boolean running = false;
     public int fps = 0;
 
-    public GameContainer(AbstractGame game) {
+    public GameContainer(Game game, EngineSettings settings) {
         this.game = game;
+        this.settings = settings;
     }
 
-    public void start(GameManager gm) {
+    public void start() {
         window = new Window(this);
-        renderer = new Renderer(this, gm);
+        renderer = new Renderer(this);
         input = new Input(this);
+        logger.init(settings.getTitle());
 
         thread = new Thread(this);
         thread.start();
+
+        getWindow().getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                stop();
+            }
+        });
+
     }
 
-    public void stop() { this.running = false; }
+    public void stop() {
+        this.running = false;
+        game.dispose();
+    }
 
     public void run() {
         running = true;
@@ -46,10 +57,10 @@ public class GameContainer implements Runnable {
         double frameTime = 0;
         int frames = 0;
 
-        game.init(this);
+        game.init();
 
         while(running) {
-            render = !settings.isLockFPS(); // Change from FALSE to TRUE to uncap frame-rate
+            render = !settings.isLockFPS(); // Change to uncap frame-rate
 
             firstTime = System.nanoTime() / 1000000000.0;
             passedTime = firstTime - lastTime;
@@ -68,15 +79,15 @@ public class GameContainer implements Runnable {
                     frames = 0;
                 }
 
-                game.update(this,(float)settings.getUpdateCap());
-                window.update();
+                game.getState().update(this,(float)settings.getUpdateCap());
+                window.update(this);
                 input.update();
             }
 
             if(render) {
                 frames++;
                 renderer.clear();
-                game.render(this,renderer);
+                game.getState().render(this, renderer);
                 renderer.process();
             }else{
                 try {
@@ -130,5 +141,9 @@ public class GameContainer implements Runnable {
 
     public Renderer getRenderer() {
         return renderer;
+    }
+
+    public EngineSettings getSettings() {
+        return settings;
     }
 }

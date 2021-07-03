@@ -1,21 +1,17 @@
 package com.game.engine.engine.gfx;
 
 import javax.imageio.ImageIO;
+import java.awt.image.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.Serializable;
 
-public class Image implements Serializable {
-    private int w,h;
-    private int[] p;
+public class Image {
+    private int width, height;
+    private int[] pixels;
     private boolean alpha = false;
 
     private String path;
 
-    public String tag = "";
-
-    public transient BufferedImage image;
+    public BufferedImage image;
 
     public Image(String path) {
         this.path = path;
@@ -28,70 +24,65 @@ public class Image implements Serializable {
         } catch (Exception e) {
             try {
                 Graphics2D graphics = image.createGraphics();
-                graphics.setPaint ( new Color( 255, 255, 255) );
-                graphics.fillRect ( 0, 0, image.getWidth(), image.getHeight() );
+                graphics.setPaint(new Color( 255, 255, 255));
+                graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
             }catch(Exception ignored) {}
         }
 
         try {
-            w = image.getWidth();
-            h = image.getHeight();
-            p = image.getRGB(0, 0, w, h, null, 0, w);
+            width = image.getWidth();
+            height = image.getHeight();
+            pixels = image.getRGB(0, 0, width, height, null, 0, width);
         }catch(Exception ignored) {}
 
         this.image = image;
     }
 
 
-
-    public int getW() {
-        return w;
+    public int[] getPixels() {
+        return pixels;
     }
 
-    public void setW(int w) {
-        this.w = w;
+    public void setPixels(int[] pixels) {
+        this.pixels = pixels;
     }
 
-    public int getH() {
-        return h;
+    public int getWidth() {
+        return width;
     }
 
-    public void setH(int h) {
-        this.h = h;
+    public void setWidth(int width) {
+        this.width = width;
     }
 
-    public int[] getP() {
-        return p;
+    public int getHeight() {
+        return height;
     }
 
-    public int getSingleP(int i) {
-        return p[i];
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getP(int i) {
+        return pixels[i];
     }
 
     public void setP(int i, int p) {
-        this.p[i] = p;
-    }
-
-    public void printP() {
-        for(int i = 0; i < p.length; i++) {
-            System.out.println(p[i]);
-        }
+        this.pixels[i] = p;
     }
 
     public Image getAlphaVal(int a) {
-        for (int i = 0; i < getW() * getH(); i++) {
+        for (int i = 0; i < getWidth() * getHeight(); i++) {
             int alphaVal;
-            int currentAlpha = ((getSingleP(i) >> 24) & 0xff);
+            int currentAlpha = ((getP(i) >> 24) & 0xff);
             if(currentAlpha != 255) { continue; }
             alphaVal = a;
 
-            int pixel = getSingleP(i);
+            int pixel = getP(i);
             Color rgba = new Color((pixel >> 16) & 0xff, (pixel >> 8) & 0xff, (pixel) & 0xff, alphaVal);
             setP(i, rgba.getRGB());
         }
-
         return this;
-
     }
 
     public boolean isAlpha() {
@@ -100,13 +91,5 @@ public class Image implements Serializable {
 
     public void setAlpha(boolean alpha) {
         this.alpha = alpha;
-    }
-
-    public String getPath() {
-        return this.path;
-    }
-
-    public void setAlpha(int value) {
-
     }
 }

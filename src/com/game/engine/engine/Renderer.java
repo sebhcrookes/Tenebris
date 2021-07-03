@@ -2,6 +2,7 @@ package com.game.engine.engine;
 
 import com.game.engine.engine.gfx.Image;
 import com.game.engine.engine.gfx.ImageRequest;
+import com.game.engine.engine.position.Vector2;
 import com.game.engine.game.GameManager;
 
 import java.awt.image.DataBufferInt;
@@ -16,7 +17,7 @@ public class Renderer {
     private GameContainer gc;
     private GameManager gm;
 
-    private ArrayList<ImageRequest> imageRequest = new ArrayList<ImageRequest>();
+    private ArrayList<ImageRequest> imageRequest = new ArrayList<>();
 
     private int pW, pH;
     private int[] p;
@@ -28,10 +29,9 @@ public class Renderer {
     public Font font = Font.STANDARD;
     private boolean processing = false;
 
-    public Renderer(GameContainer gc, GameManager gm) {
+    public Renderer(GameContainer gc) {
 
         this.gc = gc;
-        this.gm = gm;
 
         pW = gc.getWidth();
         pH = gc.getHeight();
@@ -113,14 +113,12 @@ public class Renderer {
     public void drawText(String text, int offX, int offY, int colour) {
         int offset = 0;
 
-        text = text.toUpperCase();
-
         for(int i = 0; i < text.length(); i++) {
-            int unicode = text.codePointAt(i) - 32;
+            int unicode = text.codePointAt(i);
 
-            for(int y = 0; y < font.getFontImage().getH(); y++) {
+            for(int y = 0; y < font.getFontImage().getHeight(); y++) {
                 for(int x = 0; x < font.getWidths()[unicode]; x++) {
-                    int pixelColour = font.getFontImage().getP()[x + font.getOffsets()[unicode] + y * font.getFontImage().getW()];
+                    int pixelColour = font.getFontImage().getPixels()[x + font.getOffsets()[unicode] + y * font.getFontImage().getWidth()];
                     if(pixelColour != 0xffff00ff && pixelColour != 0xff0000ff && pixelColour != 0xffffff00) {
                         setPixel(x + offX + offset, y + offY, colour);
                     }
@@ -128,6 +126,10 @@ public class Renderer {
             }
             offset += font.getWidths()[unicode];
         }
+    }
+
+    public void drawText(String text, Vector2 position, int colour) {
+        drawText(text, position.getPosX(), position.getPosY(), colour);
     }
 
 
@@ -145,12 +147,12 @@ public class Renderer {
 
         int newX = 0;
         int newY = 0;
-        int newWidth = image.getW();
-        int newHeight = image.getH();
+        int newWidth = image.getWidth();
+        int newHeight = image.getHeight();
 
         for(int y = newY; y < newHeight; y++) {
             for(int x = newX; x < newWidth; x++) {
-                setPixel(x + offX,y + offY, image.getP()[x + y * image.getW()]);
+                setPixel(x + offX,y + offY, image.getPixels()[x + y * image.getWidth()]);
             }
         }
     }
@@ -290,6 +292,14 @@ public class Renderer {
             offset += font.getWidths()[unicode];
         }
         return offset;
+    }
+
+    public Font getFont() {
+        return font;
+    }
+
+    public void setFont(Font font) {
+        this.font = font;
     }
 
     public int getzDepth() {

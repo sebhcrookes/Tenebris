@@ -10,7 +10,7 @@ Either clone this project using `git clone https://github.com/BambooPyanda/game.
 
 ## Configuration
 
-game.engine is extremely customisable. In `com.game.engine.engine.EngineSettings.java` you can find configurable options which you can change to suit your requirements. Feel free to take your time to look around some of the engine and check out some of how it works.
+game.engine is extremely customisable. In `com.game.engine.engine.util.EngineSettings.java` you can find configurable options which you can change to suit your requirements. Feel free to take your time to look around some of the engine and check out some of how it works.
 
 To begin creating your first game, simply head over to `com.game.engine.game.GameManager.java`. Immediately you will be greeted by a few methods. Notably `init()`, `update()`, and `render()`.
 

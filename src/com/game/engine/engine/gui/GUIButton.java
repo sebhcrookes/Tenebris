@@ -41,7 +41,8 @@ public class GUIButton extends GUIObject {
     @Override
     public void render(GameContainer gc, Renderer r) {
         if(packRequest) {
-            this.width = r.textLength(this.text) + 2;
+            this.width = r.textLength(this.text) + 1;
+            this.height = 10;
             packRequest = false;
         }
 

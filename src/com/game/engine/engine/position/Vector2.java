@@ -25,4 +25,11 @@ public class Vector2 {
         this.posY = posY;
     }
 
+    public void incrementPosX(int incrementBy) {
+        this.posX += incrementBy;
+    }
+
+    public void incrementPosY(int incrementBy) {
+        this.posY += incrementBy;
+    }
 }

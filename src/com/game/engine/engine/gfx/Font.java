@@ -2,25 +2,25 @@ package com.game.engine.engine.gfx;
 
 public class Font {
 
-    public static final Font STANDARD = new Font("/fonts/standard.png");
+    public static final Font STANDARD = new Font("/fonts/standard.png", 1);
 
     private Image fontImage;
     private int[] offsets;
     private int[] widths;
 
-    public Font(String path) {
+    public Font(String path, int textSpacing) {
         fontImage = new Image(path);
-        offsets = new int[59];
-        widths = new int[59];
+        offsets = new int[256];
+        widths = new int[256];
 
         int unicode = 0;
 
-        for(int i = 0; i < fontImage.getW(); i++) {
-            if(fontImage.getP()[i] == 0xff0000ff) {
-                offsets[unicode] = i;
+        for(int i = 0; i < fontImage.getWidth(); i++) {
+            if(fontImage.getPixels()[i] == 0xff0000ff) {
+                offsets[unicode] = i + textSpacing;
             }
 
-            if(fontImage.getP()[i] == 0xffffff00) {
+            if(fontImage.getPixels()[i] == 0xffffff00) {
                 widths[unicode] = i - offsets[unicode];
                 unicode++;
             }
@@ -52,7 +52,7 @@ public class Font {
     }
 
     public int getHeight() {
-        return fontImage.getH();
+        return fontImage.getHeight();
     }
 
 }
