@@ -8,10 +8,14 @@ public class Font {
     private int[] offsets;
     private int[] widths;
 
+    private int textSpacing;
+
     public Font(String path, int textSpacing) {
         fontImage = new Image(path);
         offsets = new int[256];
         widths = new int[256];
+
+        this.textSpacing = textSpacing;
 
         int unicode = 0;
 
@@ -25,6 +29,10 @@ public class Font {
                 unicode++;
             }
         }
+    }
+
+    public int getTextSpacing() {
+        return textSpacing;
     }
 
     public Image getFontImage() {

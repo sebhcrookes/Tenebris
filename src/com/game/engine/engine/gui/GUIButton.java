@@ -40,14 +40,14 @@ public class GUIButton extends GUIObject {
     @Override
     public void render(GameContainer gc, Renderer r) {
         if(packRequest) {
-            this.width = r.textLength(this.text) + 1;
+            this.width = r.textLength(this.text) + r.getFont().getTextSpacing();
             this.height = 10;
             packRequest = false;
         }
 
         r.drawCurvedRect(position.getPosX(), position.getPosY(), width, height, borderColour);
         r.drawFillRect(position.getPosX() + 1, position.getPosY() + 1, width - 2, height - 2, mainColour);
-        r.drawText(text, position.getPosX() + 1, position.getPosY(), textColour);
+        r.drawText(text, position.getPosX() + r.getFont().getTextSpacing(), position.getPosY(), textColour);
     }
 
     public void setBounds(Vector2 position, int width, int height) {
