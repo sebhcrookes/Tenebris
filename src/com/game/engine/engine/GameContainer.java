@@ -2,6 +2,7 @@ package com.game.engine.engine;
 
 import com.game.engine.engine.util.EngineSettings;
 import com.game.engine.engine.util.Logger;
+import com.game.engine.engine.util.State;
 
 public class GameContainer implements Runnable {
 
@@ -145,5 +146,9 @@ public class GameContainer implements Runnable {
 
     public EngineSettings getSettings() {
         return settings;
+    }
+
+    public Game getGame() {
+        return game;
     }
 }

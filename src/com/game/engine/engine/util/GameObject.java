@@ -1,5 +1,7 @@
-package com.game.engine.engine;
+package com.game.engine.engine.util;
 
+import com.game.engine.engine.GameContainer;
+import com.game.engine.engine.Renderer;
 import com.game.engine.engine.position.Vector2;
 import com.game.engine.game.GameManager;
 

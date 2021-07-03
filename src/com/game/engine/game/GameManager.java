@@ -1,11 +1,13 @@
 package com.game.engine.game;
 
 import com.game.engine.engine.*;
+import com.game.engine.engine.gui.GUIDialog;
 import com.game.engine.engine.util.EngineSettings;
+import com.game.engine.engine.util.State;
 
 public class GameManager {
 
-    private class TestState extends GameState {
+    private class TestState extends State {
 
         @Override
         public void init() {
@@ -19,7 +21,7 @@ public class GameManager {
 
         @Override
         public void render(GameContainer gc, Renderer r) {
-            r.drawText("Hello!", 0, 0, 0xFFFFFFFF);
+            r.drawText("Hello from TestState!", 0, 0, 0xFFFFFFFF);
         }
     }
 

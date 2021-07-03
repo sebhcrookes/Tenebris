@@ -1,7 +1,7 @@
 package com.game.engine.engine.gui;
 
 import com.game.engine.engine.GameContainer;
-import com.game.engine.engine.GameObject;
+import com.game.engine.engine.util.GameObject;
 import com.game.engine.engine.Renderer;
 import com.game.engine.game.GameManager;
 
