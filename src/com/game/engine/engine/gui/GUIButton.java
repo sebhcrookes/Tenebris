@@ -24,7 +24,7 @@ public class GUIButton extends GUIObject {
     public GUIButton() {}
 
     @Override
-    public void update(GameContainer gc, GameManager gm, float dt) {
+    public void update(GameContainer gc, float dt) {
         if(gc.getInput().getMouseX() >= position.getPosX() && gc.getInput().getMouseX() <= position.getPosX() + width) {
             if(gc.getInput().getMouseY() >= position.getPosY() && gc.getInput().getMouseY() <= position.getPosY() + height) {
                 // Mouse is hovered over button

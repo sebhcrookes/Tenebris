@@ -14,7 +14,7 @@ public class GUIDialog extends GUIObject {
     }
 
     @Override
-    public void update(GameContainer gc, GameManager gm, float dt) {
+    public void update(GameContainer gc, float dt) {
 
     }
 
