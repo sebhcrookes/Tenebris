@@ -44,6 +44,7 @@ public class GameContainer implements Runnable {
     public void stop() {
         this.running = false;
         game.dispose();
+        game.getState().dispose();
     }
 
     public void run() {

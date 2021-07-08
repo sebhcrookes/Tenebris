@@ -8,6 +8,7 @@ public class Image {
     private int width, height;
     private int[] pixels;
     private boolean alpha = false;
+    private int lightBlock = Light.NONE;
 
     private String path;
 
@@ -85,11 +86,23 @@ public class Image {
         return this;
     }
 
+    public int getLightBlock() {
+        return lightBlock;
+    }
+
+    public void setLightBlock(int lightBlock) {
+        this.lightBlock = lightBlock;
+    }
+
     public boolean isAlpha() {
         return alpha;
     }
 
     public void setAlpha(boolean alpha) {
         this.alpha = alpha;
+    }
+
+    public String getPath() {
+        return path;
     }
 }

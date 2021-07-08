@@ -1,7 +1,6 @@
 package com.game.engine.engine;
 
-import com.game.engine.engine.gfx.Image;
-import com.game.engine.engine.gfx.ImageRequest;
+import com.game.engine.engine.gfx.*;
 import com.game.engine.engine.position.Vector2;
 import com.game.engine.game.GameManager;
 
@@ -10,21 +9,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import com.game.engine.engine.gfx.Font;
-
 public class Renderer {
 
     private GameContainer gc;
     private GameManager gm;
 
     private ArrayList<ImageRequest> imageRequest = new ArrayList<>();
+    private ArrayList<LightRequest> lightRequest = new ArrayList<>();
 
     private int pW, pH;
     private int[] p;
     private int[] zb;
+    private int[] lm;
+    private int[] lb;
 
     private float camX, camY;
     private int zDepth = 0;
+
+    private int ambientColour = 0xFF555555;
+    private boolean isLighting = true; // Change this to enable lighting
 
     public Font font = Font.STANDARD;
     private boolean processing = false;
@@ -37,10 +40,19 @@ public class Renderer {
         pH = gc.getHeight();
         p = ((DataBufferInt)gc.getWindow().getImage().getRaster().getDataBuffer()).getData();
         zb = new int[p.length];
+        if(isLighting) {
+            lm = new int[p.length];
+            lb = new int[p.length];
+        }
     }
 
     public void clear() {
         Arrays.fill(p, gc.clearColour);
+        Arrays.fill(zb, gc.clearColour);
+        if(isLighting) {
+            Arrays.fill(lm, ambientColour);
+            Arrays.fill(lb, Light.NONE);
+        }
     }
 
     public void process() {
@@ -59,13 +71,30 @@ public class Renderer {
             }
         });
 
-        for(int i = 0; i < imageRequest.size(); i++) {
-            ImageRequest iR = imageRequest.get(i);
+        for (ImageRequest iR : imageRequest) {
             setzDepth(iR.zDepth);
             drawImage(iR.image, iR.offX, iR.offY);
         }
 
+        if(isLighting) {
+
+            // Draw lighting
+            for (int i = 0; i < lightRequest.size(); i++) {
+                LightRequest l = lightRequest.get(i);
+                drawLightRequest(l.light, l.locX, l.locY);
+            }
+
+            for (int i = 0; i < p.length; i++) {
+                float r = ((lm[i] >> 16) & 0xFF) / 255f;
+                float g = ((lm[i] >> 8) & 0xFF) / 255f;
+                float b = (lm[i] & 0xFF) / 255f;
+
+                p[i] = ((int) (((p[i] >> 16) & 0xFF) * r) << 16 | ((int) (((p[i] >> 8) & 0xFF) * g) << 8 | ((int) ((p[i] & 0xFF) * b))));
+            }
+        }
+
         imageRequest.clear();
+        lightRequest.clear();
         processing = false;
     }
 
@@ -101,6 +130,31 @@ public class Renderer {
             p[index] = (newRed << 16 | newGreen << 8 | newBlue);
         }
     }
+
+    public void setLightMap(int x, int y, int value) {
+        if(x < 0 || x >= pW || y < 0 || y >= pH)
+            return; // Don't render
+
+        int baseColour = lm[x + y * pW];
+
+        int maxRed = Math.max((baseColour >> 16) & 0xff, (value >> 16) & 0xff);
+        int maxGreen = Math.max((baseColour >> 8) & 0xff, (value >> 8) & 0xff);
+        int maxBlue = Math.max(baseColour & 0xff, value & 0xff);
+
+        lm[x + y * pW] = (maxRed << 16 | maxGreen << 8 | maxBlue);
+    }
+
+    public void setLightBlock(int x, int y, int value) {
+        if(x < 0 || x >= pW || y < 0 || y >= pH)
+            return; // Don't render
+
+        if(zb[x + y * pW] > zDepth) {
+            return;
+        }
+
+        lb[x + y * pW] = value;
+    }
+
 
     /**
      * Draws text to the window at a specific location
@@ -152,7 +206,9 @@ public class Renderer {
 
         for(int y = newY; y < newHeight; y++) {
             for(int x = newX; x < newWidth; x++) {
-                setPixel(x + offX,y + offY, image.getPixels()[x + y * image.getWidth()]);
+                setPixel(x + offX,y + offY, image.getPixels()[(x - newX) + (y - newY) * image.getWidth()]);
+                if(isLighting)
+                    setLightBlock(x + offX, y + offY, image.getLightBlock());
             }
         }
     }
@@ -202,6 +258,62 @@ public class Renderer {
         for (int y = 0; y <= height; y++) {
             for (int x = 0; x <= width; x++) {
                 setPixel(x + offX, y + offY, colour);
+            }
+        }
+    }
+
+    public void drawLight(Light l, int offX, int offY) {
+        lightRequest.add(new LightRequest(l, offX, offY));
+    }
+
+    private void drawLightRequest(Light l, int offX, int offY) {
+        for(int i = 0; i <= l.getDiameter(); i++) {
+            drawLightLine(l, l.getRadius(), l.getRadius(), i, 0, offX, offY);
+            drawLightLine(l, l.getRadius(), l.getRadius(), i, l.getDiameter(), offX, offY);
+            drawLightLine(l, l.getRadius(), l.getRadius(), 0, i, offX, offY);
+            drawLightLine(l, l.getRadius(), l.getRadius(), l.getDiameter(), i, offX, offY);
+        }
+    }
+
+    private void drawLightLine(Light l, int x0, int y0, int x1, int y1, int offX, int offY) {
+        int dx = Math.abs(x1 - x0); // Change in x
+        int dy = Math.abs(y1 - y0); // Change in y
+
+        // Determining which direction we're heading in
+        int sx = x0 < x1 ? 1 : -1;
+        int sy = y0 < y1 ? 1 : -1;
+
+        int err = dx - dy;
+        int e2;
+
+        while(true) {
+
+            int screenX = x0 - l.getRadius() + offX;
+            int screenY = y0 - l.getRadius() + offY;
+
+            if(screenX < 0 || screenX >= pW || screenY < 0 || screenY >= pH)
+                return;
+
+            int lightColour = l.getLightValue(x0, y0);
+            if(lightColour == 0)
+                return;
+
+            if(lb[screenX + screenY * pW] == Light.FULL)
+                return;
+
+            setLightMap(screenX, screenY, lightColour);
+
+            if(x0 == x1 && y0 == y1) break; // We reached the destination
+
+            e2 = 2 * err;
+            if(e2 > -1 * dy) {
+                err -= dy;
+                x0 += sx;
+            }
+
+            if(e2 < dx) {
+                err += dx;
+                y0 += sy;
             }
         }
     }
@@ -285,10 +397,9 @@ public class Renderer {
      */
     public int textLength(String text) {
         int offset = 0;
-        text = text.toUpperCase();
 
         for(int i = 0; i < text.length(); i++) {
-            int unicode = text.codePointAt(i) - 32;
+            int unicode = text.codePointAt(i);
             offset += font.getWidths()[unicode];
         }
         return offset;

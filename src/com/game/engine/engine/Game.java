@@ -14,6 +14,8 @@ public abstract class Game {
     }
 
     public void setState(State state) {
+        if(this.state != null)
+            this.state.dispose();
         this.state = state;
         this.state.init();
     }
