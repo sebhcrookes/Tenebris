@@ -40,9 +40,7 @@ public class GameManager {
         }
 
         @Override
-        public void dispose() {
-            System.out.println("epic");
-        }
+        public void dispose() {}
     }
 
     private class TestGame extends Game {
@@ -53,9 +51,7 @@ public class GameManager {
         }
 
         @Override
-        public void dispose() {
-
-        }
+        public void dispose() {}
     }
 
     public GameManager() {}
