@@ -9,21 +9,12 @@ public class PropertiesFile {
 
     public PropertiesFile(String path) {
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
-            StringBuilder stringBuilder = new StringBuilder();
-            String line = null;
-            String ls = "=";
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-                stringBuilder.append(ls);
-            }
+            EngineFile file = new EngineFile(path);
 
-            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-            reader.close();
+            String fileContent = file.read();
+            fileContent = fileContent.replace("\n", "=");
 
-            String content = stringBuilder.toString();
-
-            this.splitContent = content.split("=");
+            this.splitContent = fileContent.split("=");
         }catch(Exception e) { Logger.log(Logger.ERROR, "Failed to load properties file"); }
     }
 

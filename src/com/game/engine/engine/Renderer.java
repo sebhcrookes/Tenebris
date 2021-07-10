@@ -2,7 +2,6 @@ package com.game.engine.engine;
 
 import com.game.engine.engine.gfx.*;
 import com.game.engine.engine.position.Vector2;
-import com.game.engine.game.GameManager;
 
 import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
@@ -11,8 +10,7 @@ import java.util.Comparator;
 
 public class Renderer {
 
-    private GameContainer gc;
-    private GameManager gm;
+    private GameEngine engine;
 
     private ArrayList<ImageRequest> imageRequest = new ArrayList<>();
     private ArrayList<LightRequest> lightRequest = new ArrayList<>();
@@ -27,29 +25,28 @@ public class Renderer {
     private int zDepth = 0;
 
     private int ambientColour = 0xFF555555;
-    private boolean isLighting = true; // Change this to enable lighting
 
     public Font font = Font.STANDARD;
     private boolean processing = false;
 
-    public Renderer(GameContainer gc) {
+    public Renderer(GameEngine engine) {
 
-        this.gc = gc;
+        this.engine = engine;
 
-        pW = gc.getWidth();
-        pH = gc.getHeight();
-        p = ((DataBufferInt)gc.getWindow().getImage().getRaster().getDataBuffer()).getData();
+        pW = this.engine.getWidth();
+        pH = this.engine.getHeight();
+        p = ((DataBufferInt) this.engine.getWindow().getImage().getRaster().getDataBuffer()).getData();
         zb = new int[p.length];
-        if(isLighting) {
+        if(this.engine.getSettings().isLightingEnabled()) {
             lm = new int[p.length];
             lb = new int[p.length];
         }
     }
 
     public void clear() {
-        Arrays.fill(p, gc.clearColour);
-        Arrays.fill(zb, gc.clearColour);
-        if(isLighting) {
+        Arrays.fill(p, engine.getClearColour());
+        Arrays.fill(zb, 0);
+        if(engine.getSettings().isLightingEnabled()) {
             Arrays.fill(lm, ambientColour);
             Arrays.fill(lb, Light.NONE);
         }
@@ -76,12 +73,12 @@ public class Renderer {
             drawImage(iR.image, iR.offX, iR.offY);
         }
 
-        if(isLighting) {
+        if(engine.getSettings().isLightingEnabled()) {
 
             // Draw lighting
             for (int i = 0; i < lightRequest.size(); i++) {
                 LightRequest l = lightRequest.get(i);
-                drawLightRequest(l.light, l.locX, l.locY);
+                drawLightRequest(l.light, l.position.X, l.position.Y);
             }
 
             for (int i = 0; i < p.length; i++) {
@@ -183,7 +180,7 @@ public class Renderer {
     }
 
     public void drawText(String text, Vector2 position, int colour) {
-        drawText(text, position.getPosX(), position.getPosY(), colour);
+        drawText(text, position.X, position.Y, colour);
     }
 
 
@@ -207,7 +204,7 @@ public class Renderer {
         for(int y = newY; y < newHeight; y++) {
             for(int x = newX; x < newWidth; x++) {
                 setPixel(x + offX,y + offY, image.getPixels()[(x - newX) + (y - newY) * image.getWidth()]);
-                if(isLighting)
+                if(engine.getSettings().isLightingEnabled())
                     setLightBlock(x + offX, y + offY, image.getLightBlock());
             }
         }
@@ -248,22 +245,27 @@ public class Renderer {
     /**
      * Draws a full rectangle to the window at a specific location
      *
-     * @param offX X-Position
-     * @param offY Y-Position
-     * @param width Width
-     * @param height Height
-     * @param colour Colour of rectangle
+     * @param position position of rect on screen
+     * @param width width of rect
+     * @param height height of rect
+     * @param colour colour of rect
      */
-    public void drawFillRect(int offX, int offY, int width, int height, int colour) {
+    public void drawFillRect(Vector2 position, int width, int height, int colour) {
         for (int y = 0; y <= height; y++) {
             for (int x = 0; x <= width; x++) {
-                setPixel(x + offX, y + offY, colour);
+                setPixel(x + position.X, y + position.Y, colour);
             }
         }
     }
 
-    public void drawLight(Light l, int offX, int offY) {
-        lightRequest.add(new LightRequest(l, offX, offY));
+    /**
+     * Draws a light to the window at a specific location
+     *
+     * @param light light to draw
+     * @param position position of light on screen
+     */
+    public void drawLight(Light light, Vector2 position) {
+        lightRequest.add(new LightRequest(light, position));
     }
 
     private void drawLightRequest(Light l, int offX, int offY) {

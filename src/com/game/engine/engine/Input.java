@@ -4,7 +4,7 @@ import java.awt.event.*;
 
 public class Input implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
 
-    private GameContainer gc;
+    private GameEngine gc;
 
     private final int NUM_KEYS = 256;
     private boolean[] keys = new boolean[NUM_KEYS];
@@ -17,7 +17,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
     private int mouseX, mouseY;
     private int scroll;
 
-    public Input(GameContainer gc) {
+    public Input(GameEngine gc) {
         this.gc = gc;
         mouseX = 0;
         mouseY = 0;

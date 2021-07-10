@@ -1,7 +1,5 @@
 package com.game.engine.engine;
 
-import com.game.engine.game.GameManager;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -15,29 +13,29 @@ public class Window {
     private BufferStrategy bs;
     private Graphics g;
 
-    private GameContainer gc;
+    private GameEngine engine;
 
     public Color backgroundColour;
 
-    public Window(GameContainer gc) {
-        this.gc = gc;
+    public Window(GameEngine engine) {
+        this.engine = engine;
 
-        backgroundColour = new Color(gc.clearColour);
+        backgroundColour = new Color(engine.getClearColour());
 
-        image = new BufferedImage(gc.getWidth(), gc.getHeight(), BufferedImage.TYPE_INT_RGB);
+        image = new BufferedImage(engine.getWidth(), engine.getHeight(), BufferedImage.TYPE_INT_RGB);
         canvas = new Canvas();
-        Dimension s = new Dimension((int)(gc.getWidth() * gc.getScale()), (int)(gc.getHeight() * gc.getScale()));
+        Dimension s = new Dimension((int)(engine.getWidth() * engine.getScale()), (int)(engine.getHeight() * engine.getScale()));
         canvas.setPreferredSize(s);
         canvas.setMaximumSize(s);
         canvas.setMinimumSize(s);
 
-        frame = new JFrame(gc.getTitle());
+        frame = new JFrame(engine.getTitle());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBackground(backgroundColour);
 
         try {
-            if (gc.getSettings().getIconPath() != null) {
-                frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(gc.getSettings().getIconPath())));
+            if (engine.getSettings().getIconPath() != null) {
+                frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(engine.getSettings().getIconPath())));
             }
         } catch(Exception e) {
             e.printStackTrace();
@@ -45,11 +43,11 @@ public class Window {
 
         frame.setLayout(new BorderLayout());
         try {
-            if(gc.getSettings().getCursorPath() != null) {
+            if(engine.getSettings().getCursorPath() != null) {
                 BufferedImage cursorImage;
-                cursorImage = ImageIO.read(getClass().getResource(gc.getSettings().getCursorPath()));
+                cursorImage = ImageIO.read(getClass().getResource(engine.getSettings().getCursorPath()));
                 cursorImage.createGraphics();
-                Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(0,0), gc.getSettings().getTitle() + " Default Cursor");
+                Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(0,0), engine.getSettings().getTitle() + " Default Cursor");
                 frame.setCursor(cursor);
             }
         } catch (Exception e) {
@@ -72,7 +70,7 @@ public class Window {
         g =  bs.getDrawGraphics();
     }
 
-    public void update(GameContainer gc) {
+    public void update(GameEngine gc) {
         g.drawImage(image,0,0,canvas.getWidth(),canvas.getHeight(),null);
         bs.show();
     }
@@ -90,7 +88,7 @@ public class Window {
     }
 
     public void setScale(int scale) {
-        Dimension s = new Dimension((int)(gc.getWidth() * gc.getScale()), (int)(gc.getHeight() * gc.getScale()));
+        Dimension s = new Dimension((int)(engine.getWidth() * engine.getScale()), (int)(engine.getHeight() * engine.getScale()));
         canvas.setPreferredSize(s);
         canvas.setMaximumSize(s);
         canvas.setMinimumSize(s);

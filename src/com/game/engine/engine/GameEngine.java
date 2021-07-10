@@ -2,9 +2,10 @@ package com.game.engine.engine;
 
 import com.game.engine.engine.util.EngineSettings;
 import com.game.engine.engine.util.Logger;
-import com.game.engine.engine.util.State;
 
-public class GameContainer implements Runnable {
+import java.awt.event.WindowEvent;
+
+public class GameEngine implements Runnable {
 
     private Thread thread;
     private Renderer renderer;
@@ -14,12 +15,14 @@ public class GameContainer implements Runnable {
     private EngineSettings settings;
     private Logger logger = new Logger();
 
-    public int clearColour = 0xFF000000;
+    private EngineAPI api = new EngineAPI();
+
+    private int clearColour = 0xFF000000;
 
     private boolean running = false;
     public int fps = 0;
 
-    public GameContainer(Game game, EngineSettings settings) {
+    public GameEngine(Game game, EngineSettings settings) {
         this.game = game;
         this.settings = settings;
     }
@@ -42,9 +45,12 @@ public class GameContainer implements Runnable {
     }
 
     public void stop() {
-        this.running = false;
-        game.dispose();
-        game.getState().dispose();
+        if(this.running) {
+            this.running = false;
+            game.dispose();
+            game.getState().dispose();
+            window.getFrame().dispatchEvent(new WindowEvent(window.getFrame(), WindowEvent.WINDOW_CLOSING));
+        }
     }
 
     public void run() {
@@ -81,7 +87,7 @@ public class GameContainer implements Runnable {
                     frames = 0;
                 }
 
-                game.getState().update(this,(float)settings.getUpdateCap());
+                game.getState().update(api,(float)settings.getUpdateCap());
                 window.update(this);
                 input.update();
             }
@@ -89,7 +95,7 @@ public class GameContainer implements Runnable {
             if(render) {
                 frames++;
                 renderer.clear();
-                game.getState().render(this, renderer);
+                game.getState().render(api, renderer);
                 renderer.process();
             }else{
                 try {
@@ -151,5 +157,21 @@ public class GameContainer implements Runnable {
 
     public Game getGame() {
         return game;
+    }
+
+    public int getClearColour() {
+        return clearColour;
+    }
+
+    public void setClearColour(int clearColour) {
+        this.clearColour = clearColour;
+    }
+
+    public EngineAPI getAPI() {
+        return api;
+    }
+
+    public void setAPI(EngineAPI api) {
+        this.api = api;
     }
 }

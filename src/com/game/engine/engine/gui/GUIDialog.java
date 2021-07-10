@@ -1,8 +1,7 @@
 package com.game.engine.engine.gui;
 
-import com.game.engine.engine.GameContainer;
+import com.game.engine.engine.GameEngine;
 import com.game.engine.engine.Renderer;
-import com.game.engine.game.GameManager;
 
 import javax.swing.*;
 
@@ -14,12 +13,12 @@ public class GUIDialog extends GUIObject {
     }
 
     @Override
-    public void update(GameContainer gc, float dt) {
+    public void update(GameEngine gc, float dt) {
 
     }
 
     @Override
-    public void render(GameContainer gc, Renderer r) {
+    public void render(GameEngine gc, Renderer r) {
 
     }
 }

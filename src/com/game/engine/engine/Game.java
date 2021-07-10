@@ -1,7 +1,5 @@
 package com.game.engine.engine;
 
-import com.game.engine.engine.util.State;
-
 public abstract class Game {
 
     private State state;

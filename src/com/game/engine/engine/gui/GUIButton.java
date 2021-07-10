@@ -1,9 +1,8 @@
 package com.game.engine.engine.gui;
 
-import com.game.engine.engine.GameContainer;
+import com.game.engine.engine.GameEngine;
 import com.game.engine.engine.Renderer;
 import com.game.engine.engine.position.Vector2;
-import com.game.engine.game.GameManager;
 
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
@@ -24,9 +23,9 @@ public class GUIButton extends GUIObject {
     public GUIButton() {}
 
     @Override
-    public void update(GameContainer gc, float dt) {
-        if(gc.getInput().getMouseX() >= position.getPosX() && gc.getInput().getMouseX() <= position.getPosX() + width) {
-            if(gc.getInput().getMouseY() >= position.getPosY() && gc.getInput().getMouseY() <= position.getPosY() + height) {
+    public void update(GameEngine gc, float dt) {
+        if(gc.getInput().getMouseX() >= position.getX() && gc.getInput().getMouseX() <= position.getX() + width) {
+            if(gc.getInput().getMouseY() >= position.getY() && gc.getInput().getMouseY() <= position.getY() + height) {
                 // Mouse is hovered over button
                 if(gc.getInput().isButtonDown(MouseEvent.BUTTON1)) {
                     try{
@@ -38,16 +37,16 @@ public class GUIButton extends GUIObject {
     }
 
     @Override
-    public void render(GameContainer gc, Renderer r) {
+    public void render(GameEngine gc, Renderer r) {
         if(packRequest) {
             this.width = r.textLength(this.text) + r.getFont().getTextSpacing();
             this.height = 10;
             packRequest = false;
         }
 
-        r.drawCurvedRect(position.getPosX(), position.getPosY(), width, height, borderColour);
-        r.drawFillRect(position.getPosX() + 1, position.getPosY() + 1, width - 2, height - 2, mainColour);
-        r.drawText(text, position.getPosX() + r.getFont().getTextSpacing(), position.getPosY(), textColour);
+        r.drawCurvedRect(position.getX(), position.getY(), width, height, borderColour);
+        r.drawFillRect(new Vector2(position.X + 1, position.Y + 1), width - 2, height - 2, mainColour);
+        r.drawText(text, position.getX() + r.getFont().getTextSpacing(), position.getY(), textColour);
     }
 
     public void setBounds(Vector2 position, int width, int height) {

@@ -1,9 +1,8 @@
 package com.game.engine.engine.util;
 
-import com.game.engine.engine.GameContainer;
+import com.game.engine.engine.GameEngine;
 import com.game.engine.engine.Renderer;
 import com.game.engine.engine.position.Vector2;
-import com.game.engine.game.GameManager;
 
 public abstract class GameObject {
 
@@ -12,8 +11,8 @@ public abstract class GameObject {
     protected int width, height;
     protected boolean dead = false;
 
-    public abstract void update(GameContainer gc, float dt);
-    public abstract void render(GameContainer gc, Renderer r);
+    public abstract void update(GameEngine gc, float dt);
+    public abstract void render(GameEngine gc, Renderer r);
 
     public String getTag() {
         return tag;

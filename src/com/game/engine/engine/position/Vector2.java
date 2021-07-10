@@ -2,34 +2,34 @@ package com.game.engine.engine.position;
 
 public class Vector2 {
 
-    private int posX, posY;
+    public int X, Y;
 
-    public Vector2(int posX, int posY) {
-        this.posX = posX;
-        this.posY = posY;
+    public Vector2(int X, int Y) {
+        this.X = X;
+        this.Y = Y;
     }
 
-    public int getPosX() {
-        return this.posX;
+    public int getX() {
+        return this.X;
     }
 
-    public int getPosY() {
-        return this.posY;
+    public int getY() {
+        return this.Y;
     }
 
-    public void setPosX(int posX) {
-        this.posX = posX;
+    public void setX(int X) {
+        this.X = X;
     }
 
-    public void setPosY(int posY) {
-        this.posY = posY;
+    public void setY(int Y) {
+        this.Y = Y;
     }
 
-    public void incrementPosX(int incrementBy) {
-        this.posX += incrementBy;
+    public void incrementX(int incrementBy) {
+        this.X += incrementBy;
     }
 
-    public void incrementPosY(int incrementBy) {
-        this.posY += incrementBy;
+    public void incrementY(int incrementBy) {
+        this.Y += incrementBy;
     }
 }

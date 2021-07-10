@@ -10,9 +10,12 @@ public class EngineSettings {
     private int width = 512;
     private int height = 288;
     private float scale = 2.0f;
+
     private double updateCap = 1.0 / 60.0;
     private boolean debug = false;
     private boolean lockFPS = false;
+
+    private boolean lightingEnabled = true; // Has massive performance implications
 
     private String iconPath = null;
     private String cursorPath = null;
@@ -81,5 +84,13 @@ public class EngineSettings {
 
     public void setLockFPS(boolean lockFPS) {
         this.lockFPS = lockFPS;
+    }
+
+    public boolean isLightingEnabled() {
+        return lightingEnabled;
+    }
+
+    public void setLightingEnabled(boolean lightingEnabled) {
+        this.lightingEnabled = lightingEnabled;
     }
 }

@@ -1,8 +1,6 @@
 package com.game.engine.engine.util;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -28,16 +26,21 @@ public class EngineFile {
 
     public String read()
     {
-        StringBuilder contentBuilder = new StringBuilder();
-        try (Stream<String> stream = Files.lines(Paths.get(path), StandardCharsets.UTF_8))
-        {
-            stream.forEach(s -> contentBuilder.append(s).append("\n"));
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return contentBuilder.toString();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+                stringBuilder.append("\n");
+            }
+
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+            reader.close();
+
+            return stringBuilder.toString();
+        }catch (Exception e) {}
+        return "";
     }
 
     public boolean create() {
