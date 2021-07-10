@@ -53,6 +53,13 @@ public class GameEngine implements Runnable {
         }
     }
 
+    public void forceStop() {
+        if(this.running) {
+            this.running = false;
+            window.getFrame().dispatchEvent(new WindowEvent(window.getFrame(), WindowEvent.WINDOW_CLOSING));
+        }
+    }
+
     public void run() {
         running = true;
 

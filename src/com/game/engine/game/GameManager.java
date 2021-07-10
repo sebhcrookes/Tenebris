@@ -1,9 +1,11 @@
 package com.game.engine.game;
 
 import com.game.engine.engine.*;
+import com.game.engine.engine.audio.SoundClip;
 import com.game.engine.engine.gfx.Image;
 import com.game.engine.engine.gfx.Light;
 import com.game.engine.engine.position.Vector2;
+import com.game.engine.engine.util.EngineFile;
 import com.game.engine.engine.util.EngineSettings;
 import com.game.engine.engine.State;
 
@@ -22,11 +24,12 @@ public class GameManager {
 
         @Override
         public void update(EngineAPI api, float dt) {
+            System.out.println(api.getWidth());
             block.setLightBlock(Light.FULL);
             api.setClearColour(0xFFFF00FF);
 
             if(api.getInput().isKeyDown(KeyEvent.VK_BACK_SPACE)) {
-                api.stop();
+                api.forceStop();
             }
         }
 

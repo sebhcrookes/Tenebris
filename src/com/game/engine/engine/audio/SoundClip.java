@@ -9,6 +9,7 @@ public class SoundClip {
     private Clip clip;
     private FloatControl gainControl;
 
+    @Deprecated
     public SoundClip(String path) {
         try {
             InputStream audioSrc = SoundClip.class.getResourceAsStream(path);
@@ -35,16 +36,19 @@ public class SoundClip {
     }
 
     public void play() {
-        try {
-            if (clip == null) {
-                return;
+        new Thread(() -> {
+            try {
+                if (clip == null) {
+                    return;
+                }
+                stop();
+                clip.setFramePosition(0);
+                while (!clip.isRunning()) {
+                    clip.start();
+                }
+            } catch (Exception e) {
             }
-            stop();
-            clip.setFramePosition(0);
-            while (!clip.isRunning()) {
-                clip.start();
-            }
-        }catch(Exception e) {}
+        }).start();
 
     }
 
@@ -68,12 +72,6 @@ public class SoundClip {
         try {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             play();
-        }catch(Exception e) {}
-    }
-
-    public void setVolume(float value) {
-        try {
-            gainControl.setValue(value);
         }catch(Exception e) {}
     }
 

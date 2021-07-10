@@ -21,63 +21,40 @@ public class EngineAPI {
         this.engine.stop();
     }
 
+    /**
+     * <p><font color=#b13b3f> Warning: <br> </font>
+     * This function does not call dispose() methods, <br> therefore the engine will abruptly halt.
+     */
+    public void forceStop() {
+        this.engine.forceStop();
+    }
+
 
     // API Methods
 
-    public int getWidth() {
-        return engine.getSettings().getWidth();
-    }
+    public int getWidth() { return engine.getSettings().getWidth(); }
+    public void setWidth(int width) { engine.getSettings().setWidth(width); }
 
-    public void setWidth(int width) {
-        engine.getSettings().setWidth(width);
-    }
+    public int getHeight() { return engine.getSettings().getHeight(); }
+    public void setHeight(int height) { engine.getSettings().setHeight(height); }
 
-    public int getHeight() {
-        return engine.getSettings().getHeight();
-    }
+    public String getTitle() { return engine.getSettings().getTitle(); }
+    public void setTitle(String title) { engine.getSettings().setTitle(title); }
 
-    public void setHeight(int height) {
-        engine.getSettings().setHeight(height);
-    }
+    public float getScale() { return engine.getSettings().getScale(); }
 
-    public float getScale() {
-        return engine.getSettings().getScale();
-    }
+    public Window getWindow() { return engine.getWindow(); }
 
-    public String getTitle() {
-        return engine.getSettings().getTitle();
-    }
+    public Input getInput() { return engine.getInput(); }
 
-    public void setTitle(String title) {
-        engine.getSettings().setTitle(title);
-    }
+    public int getFps() { return engine.getFps(); }
 
-    public Window getWindow() {
-        return engine.getWindow();
-    }
+    public Renderer getRenderer() { return engine.getRenderer(); }
 
-    public Input getInput() {
-        return engine.getInput();
-    }
+    public EngineSettings getSettings() { return engine.getSettings(); }
 
-    public int getFps() {
-        return engine.getFps();
-    }
+    public Game getGame() { return engine.getGame(); }
 
-    public Renderer getRenderer() {
-        return engine.getRenderer();
-    }
-
-    public EngineSettings getSettings() {
-        return engine.getSettings();
-    }
-
-    public Game getGame() {
-        return engine.getGame();
-    }
-
-    public void setClearColour(int clearColour) {
-        engine.setClearColour(clearColour);
-    }
+    public void setClearColour(int clearColour) { engine.setClearColour(clearColour); }
 
 }
