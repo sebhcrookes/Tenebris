@@ -26,3 +26,6 @@ To draw "Hello, world!" to the screen, go to your render function, and type: `r.
  - [x] Image layering with alpha
  - [ ] More rendering functionality
  - [ ] GameObjects and a physics engine
+
+## Licensing
+This project is licensed under the MIT license. Read the LICENSE file for more.
