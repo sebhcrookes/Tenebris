@@ -2,7 +2,6 @@ package com.game.engine.engine.gui;
 
 import com.game.engine.engine.GameEngine;
 import com.game.engine.engine.Renderer;
-import com.game.engine.engine.position.Vector2;
 
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
@@ -24,8 +23,8 @@ public class GUIButton extends GUIObject {
 
     @Override
     public void update(GameEngine gc, float dt) {
-        if(gc.getInput().getMouseX() >= position.getX() && gc.getInput().getMouseX() <= position.getX() + width) {
-            if(gc.getInput().getMouseY() >= position.getY() && gc.getInput().getMouseY() <= position.getY() + height) {
+        if(gc.getInput().getMouseX() >= posX && gc.getInput().getMouseX() <= posX + width) {
+            if(gc.getInput().getMouseY() >= posY && gc.getInput().getMouseY() <= posY + height) {
                 // Mouse is hovered over button
                 if(gc.getInput().isButtonDown(MouseEvent.BUTTON1)) {
                     try{
@@ -44,13 +43,14 @@ public class GUIButton extends GUIObject {
             packRequest = false;
         }
 
-        r.drawCurvedRect(position.getX(), position.getY(), width, height, borderColour);
-        r.drawFillRect(new Vector2(position.X + 1, position.Y + 1), width - 2, height - 2, mainColour);
-        r.drawText(text, position.getX() + r.getFont().getTextSpacing(), position.getY(), textColour);
+        r.drawCurvedRect((int)posX, (int)posY, width, height, borderColour);
+        r.drawFillRect(posX + 1, posY + 1, width - 2, height - 2, mainColour);
+        r.drawText(text, (int)posX + r.getFont().getTextSpacing(), (int)posY, textColour);
     }
 
-    public void setBounds(Vector2 position, int width, int height) {
-        this.position = position;
+    public void setBounds(int posX, int posY, int width, int height) {
+        this.posX = posX;
+        this.posY = posY;
         this.width = width;
         this.height = height;
     }

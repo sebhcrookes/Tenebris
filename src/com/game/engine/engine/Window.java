@@ -22,14 +22,14 @@ public class Window {
 
         backgroundColour = new Color(engine.getClearColour());
 
-        image = new BufferedImage(engine.getWidth(), engine.getHeight(), BufferedImage.TYPE_INT_RGB);
+        image = new BufferedImage(engine.getSettings().getWidth(), engine.getSettings().getHeight(), BufferedImage.TYPE_INT_RGB);
         canvas = new Canvas();
-        Dimension s = new Dimension((int)(engine.getWidth() * engine.getScale()), (int)(engine.getHeight() * engine.getScale()));
+        Dimension s = new Dimension((int)(engine.getSettings().getWidth() * engine.getSettings().getScale()), (int)(engine.getSettings().getHeight() * engine.getSettings().getScale()));
         canvas.setPreferredSize(s);
         canvas.setMaximumSize(s);
         canvas.setMinimumSize(s);
 
-        frame = new JFrame(engine.getTitle());
+        frame = new JFrame(engine.getSettings().getTitle());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBackground(backgroundColour);
 
@@ -59,7 +59,7 @@ public class Window {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        frame.setVisible(true);
+        frame.setVisible(false);
         frame.setState(Frame.NORMAL);
         frame.requestFocus();
 
@@ -87,18 +87,7 @@ public class Window {
         return frame;
     }
 
-    public void setScale(int scale) {
-        Dimension s = new Dimension((int)(engine.getWidth() * engine.getScale()), (int)(engine.getHeight() * engine.getScale()));
-        canvas.setPreferredSize(s);
-        canvas.setMaximumSize(s);
-        canvas.setMinimumSize(s);
-
-        frame.add(canvas, BorderLayout.CENTER);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.requestFocus();
+    public void setVisible(boolean visible) {
+        this.frame.setVisible(visible);
     }
-
 }
