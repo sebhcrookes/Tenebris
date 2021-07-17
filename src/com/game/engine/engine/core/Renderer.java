@@ -1,5 +1,6 @@
-package com.game.engine.engine;
+package com.game.engine.engine.core;
 
+import com.game.engine.engine.core.GameEngine;
 import com.game.engine.engine.gfx.*;
 import com.game.engine.engine.gfx.temp.ImageData;
 import com.game.engine.engine.gfx.temp.LightData;

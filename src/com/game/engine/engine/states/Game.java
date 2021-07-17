@@ -1,4 +1,4 @@
-package com.game.engine.engine;
+package com.game.engine.engine.states;
 
 public abstract class Game {
 

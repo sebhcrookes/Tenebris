@@ -1,7 +1,7 @@
-package com.game.engine.engine;
+package com.game.engine.engine.states;
 
-import com.game.engine.engine.EngineAPI;
-import com.game.engine.engine.Renderer;
+import com.game.engine.engine.core.EngineAPI;
+import com.game.engine.engine.core.Renderer;
 
 public abstract class State {
     public abstract void init();

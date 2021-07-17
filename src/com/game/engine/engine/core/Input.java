@@ -1,4 +1,6 @@
-package com.game.engine.engine;
+package com.game.engine.engine.core;
+
+import com.game.engine.engine.core.GameEngine;
 
 import java.awt.event.*;
 
@@ -116,11 +118,11 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
 
 
     public int getMouseX() {
-        return mouseX;
+        return (int) (mouseX / gc.getWindow().getMultiplier());
     }
 
     public int getMouseY() {
-        return mouseY;
+        return (int)(mouseY / gc.getWindow().getMultiplier());
     }
 
     public int getScroll() {

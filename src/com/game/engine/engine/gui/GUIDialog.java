@@ -1,7 +1,7 @@
 package com.game.engine.engine.gui;
 
-import com.game.engine.engine.GameEngine;
-import com.game.engine.engine.Renderer;
+import com.game.engine.engine.core.GameEngine;
+import com.game.engine.engine.core.Renderer;
 
 import javax.swing.*;
 
