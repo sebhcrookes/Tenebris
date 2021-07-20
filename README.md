@@ -4,13 +4,13 @@
 
 game.engine is a game engine written in Java which uses no external libraries and has no dependencies. 
 
-## How to use
+## How to install
 
 Above the file list, click the button named 'Use this template'. Follow the instructions presented by Github,
 including adding a name to your repository selecting its visibility and adding a description. Click
 'Create repository from template', and you're good to go!
 
-## Configuration
+## Configuration/How to use
 
 game.engine is extremely customisable. In `com.game.engine.engine.util.EngineSettings.java` you can find
 configurable options which you can change to suit your requirements. Feel free to take your time to look
@@ -27,6 +27,8 @@ To draw "Hello, world!" to the screen, go to your render function, and type:
 `r.drawText("Hello, world!", 0, 0, 0xFFFFFFFF);`. This draws the text "Hello, world!" at pixel (0,0) in a
 white colour. Run your code and now you should see that "Hello, world!" is drawn in the top-left of the
 screen.
+
+The documentation is still a work-in-progress, however you can check it out on this project's wiki [here](https://github.com/BambooPyanda/game.engine/wiki)
 
 ## Features implemented
  - [x] Main engine
