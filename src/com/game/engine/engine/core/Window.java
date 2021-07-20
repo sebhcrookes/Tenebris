@@ -5,8 +5,6 @@ import com.game.engine.engine.core.GameEngine;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
@@ -33,7 +31,6 @@ public class Window {
         canvas = new Canvas();
         Dimension s = new Dimension((int)(engine.getSettings().getWidth() * engine.getSettings().getScale()), (int)(engine.getSettings().getHeight() * engine.getSettings().getScale()));
         canvas.setPreferredSize(s);
-        canvas.setFocusable(false);
         canvas.setEnabled(true);
         image = new BufferedImage(engine.getSettings().getWidth(), engine.getSettings().getHeight(), BufferedImage.TYPE_INT_RGB);
 
@@ -66,6 +63,8 @@ public class Window {
         frame.setVisible(false);
         frame.setState(Frame.NORMAL);
         frame.requestFocus();
+
+        frame.setFocusable(true);
 
         canvas.createBufferStrategy(2);
         bs = canvas.getBufferStrategy();

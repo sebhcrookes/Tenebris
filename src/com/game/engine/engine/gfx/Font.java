@@ -31,6 +31,29 @@ public class Font {
         }
     }
 
+    /**
+     * Calculates the length of a string, in pixels
+     * @param text Text to calculate
+     * @return Length of text, in pixels
+     */
+    public int getTextLength(String text) {
+        int offset = 0;
+
+        for(int i = 0; i < text.length(); i++) {
+            int unicode = text.codePointAt(i);
+            offset += getWidths()[unicode];
+        }
+        return offset;
+    }
+
+    /**
+     * Calculates the height of the font, in pixels
+     * @return Height of font, in pixels
+     */
+    public int getFontHeight() {
+        return fontImage.getHeight() - 1;
+    }
+
     public int getTextSpacing() {
         return textSpacing;
     }

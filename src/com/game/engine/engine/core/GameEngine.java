@@ -1,10 +1,13 @@
 package com.game.engine.engine.core;
 
 import com.game.engine.engine.states.Game;
+import com.game.engine.engine.ui.UI;
+import com.game.engine.engine.ui.UIComponent;
 import com.game.engine.engine.util.EngineSettings;
 import com.game.engine.engine.util.Logger;
 
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 public class GameEngine implements Runnable {
 
@@ -15,7 +18,7 @@ public class GameEngine implements Runnable {
     private Game game;
     private EngineSettings settings;
     private Logger logger = new Logger();
-
+    private UI ui;
     private EngineAPI api = new EngineAPI();
 
     private int clearColour = 0xFF000000;
@@ -42,7 +45,8 @@ public class GameEngine implements Runnable {
         double frameTime = 0;
         int frames = 0;
 
-        game.init(); // Run the init function for our game
+        game.setAPI(api);
+        game.init(api); // Run the init function for our game
 
         while(isRunning) {
             render = !settings.isLockFPS(); // Change to uncap frame-rate
@@ -63,6 +67,7 @@ public class GameEngine implements Runnable {
                     fps = frames;
                     frames = 0;
                 }
+                ui.update(api, (float)settings.getUpdateCap());
                 game.getState().update(api,(float)settings.getUpdateCap());
                 window.update(this);
                 input.update();
@@ -73,6 +78,7 @@ public class GameEngine implements Runnable {
                 renderer.clear();
                 game.getState().render(api, renderer);
                 renderer.process();
+                ui.render(api, renderer); // UI renders last
             }else{
                 try {
                     Thread.sleep(1); // Allow the thread to sleep
@@ -86,6 +92,7 @@ public class GameEngine implements Runnable {
     public void start() {
         window = new Window(this);
         renderer = new Renderer(this);
+        ui = new UI(this);
         input = new Input(this);
         logger.init(settings.getTitle());
 
@@ -191,5 +198,11 @@ public class GameEngine implements Runnable {
         this.fps = fps;
     }
 
+    public UI getUI() {
+        return ui;
+    }
 
+    public void setUI(UI ui) {
+        this.ui = ui;
+    }
 }

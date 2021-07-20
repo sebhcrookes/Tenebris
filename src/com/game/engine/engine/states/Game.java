@@ -1,10 +1,13 @@
 package com.game.engine.engine.states;
 
+import com.game.engine.engine.core.EngineAPI;
+
 public abstract class Game {
 
     private State state;
+    private EngineAPI api;
 
-    public abstract void init();
+    public abstract void init(EngineAPI api);
     public abstract void dispose();
 
     public State getState() {
@@ -15,7 +18,10 @@ public abstract class Game {
         if(this.state != null)
             this.state.dispose();
         this.state = state;
-        this.state.init();
+        this.state.init(api);
     }
 
+    public void setAPI(EngineAPI api) {
+        this.api = api;
+    }
 }

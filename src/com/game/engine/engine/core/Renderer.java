@@ -443,25 +443,6 @@ public class Renderer {
     }
 
     //================================================================================
-    // Miscellaneous functions
-    //================================================================================
-
-    /**
-     * Calculates the length of a string, in pixels
-     * @param text Text to calculate
-     * @return Length of text, in pixels
-     */
-    public int textLength(String text) {
-        int offset = 0;
-
-        for(int i = 0; i < text.length(); i++) {
-            int unicode = text.codePointAt(i);
-            offset += font.getWidths()[unicode];
-        }
-        return offset;
-    }
-
-    //================================================================================
     // Getters and Setters
     //================================================================================
 

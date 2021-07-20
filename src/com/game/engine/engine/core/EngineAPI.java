@@ -1,7 +1,11 @@
 package com.game.engine.engine.core;
 
 import com.game.engine.engine.states.Game;
+import com.game.engine.engine.ui.UI;
+import com.game.engine.engine.ui.UIComponent;
 import com.game.engine.engine.util.EngineSettings;
+
+import java.util.ArrayList;
 
 public class EngineAPI {
 
@@ -57,5 +61,9 @@ public class EngineAPI {
     public Game getGame() { return engine.getGame(); }
 
     public void setClearColour(int clearColour) { engine.setClearColour(clearColour); }
+
+    public UI getUI() {
+        return engine.getUI();
+    }
 
 }
