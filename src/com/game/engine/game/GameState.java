@@ -22,7 +22,7 @@ public class GameState extends State {
     }
 
     @Override
-    public void dispose() {
+    public void dispose(EngineAPI api) {
         // Dispose is called when state is changed or when application is closed/exits
     }
 }

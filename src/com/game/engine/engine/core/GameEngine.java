@@ -1,29 +1,25 @@
 package com.game.engine.engine.core;
 
 import com.game.engine.engine.states.Game;
-import com.game.engine.engine.ui.UI;
-import com.game.engine.engine.ui.UIComponent;
 import com.game.engine.engine.util.EngineSettings;
 import com.game.engine.engine.util.Logger;
 
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 public class GameEngine implements Runnable {
 
     private Thread thread;
-    private Renderer renderer;
-    private Window window;
-    private Input input;
-    private Game game;
-    private EngineSettings settings;
-    private Logger logger = new Logger();
-    private UI ui;
-    private EngineAPI api = new EngineAPI();
+    protected Renderer renderer;
+    protected Window window;
+    protected Input input;
+    protected Game game;
+    protected EngineSettings settings;
+    protected Logger logger = new Logger();
+    protected EngineAPI api = new EngineAPI();
 
     private int clearColour = 0xFF000000;
 
-    private boolean isRunning = false;
+    private boolean running = false;
     public int fps = 0;
 
     public GameEngine(Game game, EngineSettings settings) {
@@ -32,44 +28,42 @@ public class GameEngine implements Runnable {
     }
 
     public void run() {
-        isRunning = true;
-
-        float divisor = (float)0x3B9ACA00; // Divisor to convert nanoTime to ms
+        running = true;
 
         boolean render;
-        double first;
-        double last = System.nanoTime() / divisor;
-        double passed;
-        double unprocessed = 0;
+        double firstTime;
+        double lastTime = System.nanoTime() / 1000000000.0;
+        double passedTime;
+        double unprocessedTime = 0;
 
         double frameTime = 0;
         int frames = 0;
 
         game.setAPI(api);
-        game.init(api); // Run the init function for our game
+        game.init(api);
+        game.getState().init(api);
 
-        while(isRunning) {
+        while(running) {
             render = !settings.isLockFPS(); // Change to uncap frame-rate
 
-            first = System.nanoTime() / divisor;
-            passed = first - last;
-            last = first;
+            firstTime = System.nanoTime() / 1000000000.0;
+            passedTime = firstTime - lastTime;
+            lastTime = firstTime;
 
-            unprocessed += passed;
-            frameTime += passed;
+            unprocessedTime += passedTime;
+            frameTime += passedTime;
 
-            while(unprocessed >= settings.getUpdateCap()) {
-                unprocessed -= settings.getUpdateCap();
-                render = true; // Only render when we update
+            while(unprocessedTime >= settings.getUpdateCap()) {
+                unprocessedTime -= settings.getUpdateCap();
+                render = true;
 
                 if(frameTime >= 1.0) {
                     frameTime = 0;
                     fps = frames;
                     frames = 0;
                 }
-                ui.update(api, (float)settings.getUpdateCap());
                 game.getState().update(api,(float)settings.getUpdateCap());
-                window.update(this);
+                window.update();
                 input.update();
             }
 
@@ -78,7 +72,6 @@ public class GameEngine implements Runnable {
                 renderer.clear();
                 game.getState().render(api, renderer);
                 renderer.process();
-                ui.render(api, renderer); // UI renders last
             }else{
                 try {
                     Thread.sleep(1); // Allow the thread to sleep
@@ -92,7 +85,6 @@ public class GameEngine implements Runnable {
     public void start() {
         window = new Window(this);
         renderer = new Renderer(this);
-        ui = new UI(this);
         input = new Input(this);
         logger.init(settings.getTitle());
 
@@ -109,17 +101,17 @@ public class GameEngine implements Runnable {
     }
 
     public void stop() {
-        if(this.isRunning) {
-            this.isRunning = false;
+        if(this.running) {
+            this.running = false;
             game.dispose();
-            game.getState().dispose();
+            game.getState().dispose(api);
             window.getFrame().dispatchEvent(new WindowEvent(window.getFrame(), WindowEvent.WINDOW_CLOSING));
         }
     }
 
     public void forceStop() {
-        if(this.isRunning) {
-            this.isRunning = false;
+        if(this.running) {
+            this.running = false;
             thread.stop();
             window.getFrame().dispatchEvent(new WindowEvent(window.getFrame(), WindowEvent.WINDOW_CLOSING));
         }
@@ -196,13 +188,5 @@ public class GameEngine implements Runnable {
 
     public void setFps(int fps) {
         this.fps = fps;
-    }
-
-    public UI getUI() {
-        return ui;
-    }
-
-    public void setUI(UI ui) {
-        this.ui = ui;
     }
 }

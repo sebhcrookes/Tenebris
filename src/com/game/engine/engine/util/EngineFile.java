@@ -2,12 +2,6 @@ package com.game.engine.engine.util;
 
 import java.io.*;
 
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.stream.Stream;
-
 public class EngineFile {
 
     private String path;
@@ -51,4 +45,12 @@ public class EngineFile {
         return false;
     }
 
+    public boolean createDir() {
+        File file = new File(path);
+        try {
+            file.mkdir();
+            return true;
+        } catch(Exception ignored) {}
+        return false;
+    }
 }

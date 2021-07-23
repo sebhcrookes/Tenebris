@@ -118,11 +118,11 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
 
 
     public int getMouseX() {
-        return (int) (mouseX / gc.getWindow().getMultiplier());
+        return (int) (mouseX);
     }
 
     public int getMouseY() {
-        return (int)(mouseY / gc.getWindow().getMultiplier());
+        return (int)(mouseY);
     }
 
     public int getScroll() {

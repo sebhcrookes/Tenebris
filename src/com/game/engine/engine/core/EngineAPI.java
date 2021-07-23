@@ -1,11 +1,7 @@
 package com.game.engine.engine.core;
 
 import com.game.engine.engine.states.Game;
-import com.game.engine.engine.ui.UI;
-import com.game.engine.engine.ui.UIComponent;
 import com.game.engine.engine.util.EngineSettings;
-
-import java.util.ArrayList;
 
 public class EngineAPI {
 
@@ -37,33 +33,28 @@ public class EngineAPI {
 
     // API Methods
 
-    public int getWidth() { return engine.getSettings().getWidth(); }
-    public void setWidth(int width) { engine.getSettings().setWidth(width); }
+    public int getWidth() { return engine.settings.getWidth(); }
+    public void setWidth(int width) { engine.settings.setWidth(width); }
 
-    public int getHeight() { return engine.getSettings().getHeight(); }
-    public void setHeight(int height) { engine.getSettings().setHeight(height); }
+    public int getHeight() { return engine.settings.getHeight(); }
+    public void setHeight(int height) { engine.settings.setHeight(height); }
 
-    public String getTitle() { return engine.getSettings().getTitle(); }
-    public void setTitle(String title) { engine.getSettings().setTitle(title); }
+    public String getTitle() { return engine.settings.getTitle(); }
+    public void setTitle(String title) { engine.settings.setTitle(title); }
 
-    public float getScale() { return engine.getSettings().getScale(); }
+    public float getScale() { return engine.settings.getScale(); }
 
-    public Window getWindow() { return engine.getWindow(); }
+    public Window getWindow() { return engine.window; }
 
-    public Input getInput() { return engine.getInput(); }
+    public Input getInput() { return engine.input; }
 
-    public int getFps() { return engine.getFps(); }
+    public int getFPS() { return engine.fps; }
 
-    public Renderer getRenderer() { return engine.getRenderer(); }
+    public Renderer getRenderer() { return engine.renderer; }
 
-    public EngineSettings getSettings() { return engine.getSettings(); }
+    public EngineSettings getSettings() { return engine.settings; }
 
-    public Game getGame() { return engine.getGame(); }
+    public Game getGame() { return engine.game; }
 
     public void setClearColour(int clearColour) { engine.setClearColour(clearColour); }
-
-    public UI getUI() {
-        return engine.getUI();
-    }
-
 }

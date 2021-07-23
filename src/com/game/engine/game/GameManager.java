@@ -20,8 +20,8 @@ public class GameManager {
     public GameManager() {}
 
     public void start() {
-        EngineAPI gc = new EngineAPI();
-        gc.init(new TestGame(), new EngineSettings());
-        gc.start();
+        EngineAPI api = new EngineAPI();
+        api.init(new TestGame(), new EngineSettings());
+        api.start();
     }
 }

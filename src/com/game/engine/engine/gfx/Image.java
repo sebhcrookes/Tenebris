@@ -52,38 +52,29 @@ public class Image {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
     public int getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public int getP(int position) {
+        return pixels[position];
     }
 
-    public int getP(int i) {
-        return pixels[i];
+    public void setP(int position, int value) {
+        this.pixels[position] = value;
     }
 
-    public void setP(int i, int p) {
-        this.pixels[i] = p;
-    }
-
-    public Image getAlphaVal(int a) {
+    public void setAlphaVal(int alpha) {
         for (int i = 0; i < getWidth() * getHeight(); i++) {
             int alphaVal;
             int currentAlpha = ((getP(i) >> 24) & 0xff);
             if(currentAlpha != 255) { continue; }
-            alphaVal = a;
+            alphaVal = alpha;
 
             int pixel = getP(i);
             Color rgba = new Color((pixel >> 16) & 0xff, (pixel >> 8) & 0xff, (pixel) & 0xff, alphaVal);
             setP(i, rgba.getRGB());
         }
-        return this;
     }
 
     public int getLightBlock() {
