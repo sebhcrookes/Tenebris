@@ -41,7 +41,6 @@ public class GameEngine implements Runnable {
 
         game.setAPI(api);
         game.init(api);
-        game.getState().init(api);
 
         while(running) {
             render = !settings.isLockFPS(); // Change to uncap frame-rate

@@ -17,7 +17,7 @@ public class Window {
 
     private GameEngine engine;
 
-    public Color backgroundColour = new Color(0, 0, 0);
+    public Color backgroundColour = new Color(255, 255, 255);
     private boolean loader = true;
 
 
@@ -53,7 +53,7 @@ public class Window {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        frame.setVisible(true);
+        frame.setVisible(false);
         frame.setState(Frame.NORMAL);
         frame.requestFocus();
 
