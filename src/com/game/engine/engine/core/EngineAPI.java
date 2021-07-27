@@ -1,5 +1,6 @@
 package com.game.engine.engine.core;
 
+import com.game.engine.engine.core.rendering.Renderer;
 import com.game.engine.engine.states.Game;
 import com.game.engine.engine.util.EngineSettings;
 

@@ -1,5 +1,6 @@
 package com.game.engine.engine.core;
 
+import com.game.engine.engine.core.rendering.Renderer;
 import com.game.engine.engine.states.Game;
 import com.game.engine.engine.util.EngineSettings;
 import com.game.engine.engine.util.Logger;
@@ -82,10 +83,10 @@ public class GameEngine implements Runnable {
     }
 
     public void start() {
+        logger.init(settings.getTitle());
         window = new Window(this);
         renderer = new Renderer(this);
         input = new Input(this);
-        logger.init(settings.getTitle());
 
         thread = new Thread(this);
         thread.start();

@@ -1,12 +1,9 @@
 package com.game.engine.engine.core;
 
-import com.game.engine.engine.core.GameEngine;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
-import java.io.IOException;
 
 public class Window {
     private JFrame frame;

@@ -20,11 +20,13 @@ public class Logger {
     public static final int ERROR = 1;
     public static final int FATAL_ERROR = 2;
     public static final int ENGINE_INFO = 3;
+    public static final int TENEBRIS_INFO = 4;
 
     private static String INFO_TEXT;
     private static String ERROR_TEXT;
     private static String FATAL_ERROR_TEXT;
     private static String ENGINE_INFO_TEXT;
+    private static String TENEBRIS_INFO_TEXT;
 
     public void init(String gameTitle) {
         title = gameTitle;
@@ -32,6 +34,7 @@ public class Logger {
         ERROR_TEXT = "<" + title + ">: Error - ";
         FATAL_ERROR_TEXT = "<" + title + ">: Error - ";
         ENGINE_INFO_TEXT = "<Engine>: Info - ";
+        TENEBRIS_INFO_TEXT = "<Tenebris>: Info - ";
     }
 
     /**
@@ -55,7 +58,11 @@ public class Logger {
                 return;
             case ENGINE_INFO:
                 log += "\n" + ENGINE_INFO_TEXT + message;
-                System.out.println(ANSI_GREEN + ENGINE_INFO_TEXT + ANSI_RESET + message);
+                System.out.println(ANSI_PURPLE + ENGINE_INFO_TEXT + ANSI_RESET + message);
+                return;
+            case TENEBRIS_INFO:
+                log += "\n" + TENEBRIS_INFO_TEXT + message;
+                System.out.println(ANSI_CYAN + TENEBRIS_INFO_TEXT + ANSI_RESET + message);
                 return;
             default:
                 log += "\n" + INFO_TEXT + message;

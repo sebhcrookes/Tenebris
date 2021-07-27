@@ -1,7 +1,5 @@
 package com.game.engine.engine.core;
 
-import com.game.engine.engine.core.GameEngine;
-
 import java.awt.event.*;
 
 public class Input implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {

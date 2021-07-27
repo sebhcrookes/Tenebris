@@ -1,19 +1,14 @@
 package com.game.engine.game;
 
 import com.game.engine.engine.core.EngineAPI;
-import com.game.engine.engine.core.Renderer;
+import com.game.engine.engine.core.rendering.Renderer;
 import com.game.engine.engine.states.State;
-
-import java.lang.management.ManagementFactory;
 
 public class GameState extends State {
 
     @Override
     public void init(EngineAPI api) {
         api.setClearColour(0xFF18191A);
-
-        com.sun.management.OperatingSystemMXBean os = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-        System.out.println(os.getTotalPhysicalMemorySize());
     }
 
     @Override

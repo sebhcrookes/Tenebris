@@ -15,7 +15,7 @@ public class EngineSettings {
     private boolean debug = false;
     private boolean lockFPS = false;
 
-    private boolean lightingEnabled = false; // Has massive performance implications
+    private boolean lightingEnabled = false; // Significantly lowers frame-rate
 
     private String iconPath = null;
     private String cursorPath = null;

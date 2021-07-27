@@ -1,7 +1,7 @@
 package com.game.engine.engine.states;
 
 import com.game.engine.engine.core.EngineAPI;
-import com.game.engine.engine.core.Renderer;
+import com.game.engine.engine.core.rendering.Renderer;
 
 public abstract class State {
     public abstract void init(EngineAPI api); // Runs when state is initialised
