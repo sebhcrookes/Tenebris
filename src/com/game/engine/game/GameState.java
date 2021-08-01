@@ -1,7 +1,7 @@
 package com.game.engine.game;
 
 import com.game.engine.engine.core.EngineAPI;
-import com.game.engine.engine.core.rendering.Renderer;
+import com.game.engine.engine.core.Renderer;
 import com.game.engine.engine.states.State;
 
 public class GameState extends State {

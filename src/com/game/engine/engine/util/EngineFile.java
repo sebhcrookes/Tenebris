@@ -4,7 +4,7 @@ import java.io.*;
 
 public class EngineFile {
 
-    private String path;
+    private final String path;
 
     public EngineFile(String path) {
         this.path = path;
@@ -15,11 +15,11 @@ public class EngineFile {
             FileWriter myWriter = new FileWriter(path);
             myWriter.write(contents);
             myWriter.close();
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }
     }
 
-    public String read()
-    {
+    public String read() {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
             StringBuilder stringBuilder = new StringBuilder();
@@ -33,7 +33,8 @@ public class EngineFile {
             reader.close();
 
             return stringBuilder.toString();
-        }catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return "";
     }
 
@@ -41,7 +42,8 @@ public class EngineFile {
         File file = new File(path);
         try {
             return file.createNewFile();
-        } catch(IOException ignored) {}
+        } catch (IOException ignored) {
+        }
         return false;
     }
 
@@ -50,7 +52,8 @@ public class EngineFile {
         try {
             file.mkdir();
             return true;
-        } catch(Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         return false;
     }
 }

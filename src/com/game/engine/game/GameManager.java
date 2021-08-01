@@ -6,6 +6,15 @@ import com.game.engine.engine.util.EngineSettings;
 
 public class GameManager {
 
+    public GameManager() {
+    }
+
+    public void start() {
+        EngineAPI api = new EngineAPI();
+        api.init(new TestGame(), new EngineSettings());
+        api.start();
+    }
+
     private class TestGame extends Game {
 
         @Override
@@ -14,14 +23,7 @@ public class GameManager {
         }
 
         @Override
-        public void dispose() {} // Called when application is exited
-    }
-
-    public GameManager() {}
-
-    public void start() {
-        EngineAPI api = new EngineAPI();
-        api.init(new TestGame(), new EngineSettings());
-        api.start();
+        public void dispose() {
+        } // Called when application is exited
     }
 }

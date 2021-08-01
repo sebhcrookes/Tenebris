@@ -1,6 +1,5 @@
 package com.game.engine.engine.core;
 
-import com.game.engine.engine.core.rendering.Renderer;
 import com.game.engine.engine.states.Game;
 import com.game.engine.engine.util.EngineSettings;
 import com.game.engine.engine.util.Logger;
@@ -9,7 +8,8 @@ import java.awt.event.WindowEvent;
 
 public class GameEngine implements Runnable {
 
-    private Thread thread;
+    public int fps = 0;
+
     protected Renderer renderer;
     protected Window window;
     protected Input input;
@@ -17,11 +17,10 @@ public class GameEngine implements Runnable {
     protected EngineSettings settings;
     protected Logger logger = new Logger();
     protected EngineAPI api = new EngineAPI();
+    private Thread thread;
 
     private int clearColour = 0xFF000000;
-
     private boolean running = false;
-    public int fps = 0;
 
     public GameEngine(Game game, EngineSettings settings) {
         this.game = game;
@@ -43,7 +42,7 @@ public class GameEngine implements Runnable {
         game.setAPI(api);
         game.init(api);
 
-        while(running) {
+        while (running) {
             render = !settings.isLockFPS(); // Change to uncap frame-rate
 
             firstTime = System.nanoTime() / 1000000000.0;
@@ -53,26 +52,26 @@ public class GameEngine implements Runnable {
             unprocessedTime += passedTime;
             frameTime += passedTime;
 
-            while(unprocessedTime >= settings.getUpdateCap()) {
+            while (unprocessedTime >= settings.getUpdateCap()) {
                 unprocessedTime -= settings.getUpdateCap();
                 render = true;
 
-                if(frameTime >= 1.0) {
+                if (frameTime >= 1.0) {
                     frameTime = 0;
                     fps = frames;
                     frames = 0;
                 }
-                game.getState().update(api,(float)settings.getUpdateCap());
+                game.getState().update(api, (float) settings.getUpdateCap());
                 window.update();
                 input.update();
             }
 
-            if(render) { // Render the game
+            if (render) { // Render the game
                 frames++;
                 renderer.clear();
                 game.getState().render(api, renderer);
                 renderer.process();
-            }else{
+            } else {
                 try {
                     Thread.sleep(1); // Allow the thread to sleep
                 } catch (InterruptedException e) {
@@ -101,7 +100,7 @@ public class GameEngine implements Runnable {
     }
 
     public void stop() {
-        if(this.running) {
+        if (this.running) {
             this.running = false;
             game.dispose();
             game.getState().dispose(api);
@@ -110,7 +109,7 @@ public class GameEngine implements Runnable {
     }
 
     public void forceStop() {
-        if(this.running) {
+        if (this.running) {
             this.running = false;
             thread.stop();
             window.getFrame().dispatchEvent(new WindowEvent(window.getFrame(), WindowEvent.WINDOW_CLOSING));

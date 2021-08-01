@@ -3,26 +3,25 @@ package com.game.engine.engine.core;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.*;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 public class Window {
-    private JFrame frame;
-    private BufferedImage image;
-    private Canvas canvas;
-    private BufferStrategy bs;
-    private Graphics g;
-
-    private GameEngine engine;
 
     public Color backgroundColour = new Color(255, 255, 255);
-    private boolean loader = true;
 
+    private final JFrame frame;
+    private final BufferedImage image;
+    private final Canvas canvas;
+    private final BufferStrategy bs;
+    private final Graphics g;
+    private final GameEngine engine;
 
     public Window(GameEngine engine) {
         this.engine = engine;
         image = new BufferedImage(engine.getSettings().getWidth(), engine.getSettings().getHeight(), BufferedImage.TYPE_INT_RGB);
         canvas = new Canvas();
-        Dimension s = new Dimension((int)(engine.getSettings().getWidth() * engine.getSettings().getScale()), (int)(engine.getSettings().getHeight() * engine.getSettings().getScale()));
+        Dimension s = new Dimension((int) (engine.getSettings().getWidth() * engine.getSettings().getScale()), (int) (engine.getSettings().getHeight() * engine.getSettings().getScale()));
         canvas.setPreferredSize(s);
         canvas.setMaximumSize(s);
         canvas.setMinimumSize(s);
@@ -34,7 +33,8 @@ public class Window {
 
         try {
             frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/assets/misc/icon.png")));
-        }catch(Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         frame.setLayout(new BorderLayout());
 
@@ -42,9 +42,10 @@ public class Window {
             BufferedImage cursorImage;
             cursorImage = ImageIO.read(getClass().getResource("/assets/misc/cursor.png"));
             cursorImage.createGraphics();
-            Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(0,0), "game.engine Default Cursor");
+            Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(0, 0), "game.engine Default Cursor");
             frame.setCursor(cursor);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         frame.add(canvas, BorderLayout.CENTER);
         frame.pack();
@@ -58,11 +59,11 @@ public class Window {
         canvas.setBackground(backgroundColour);
         canvas.setEnabled(true);
         bs = canvas.getBufferStrategy();
-        g =  bs.getDrawGraphics();
+        g = bs.getDrawGraphics();
     }
 
     public void update() {
-        g.drawImage(image,0,0,canvas.getWidth(),canvas.getHeight(),null);
+        g.drawImage(image, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
         bs.show();
     }
 
@@ -79,7 +80,7 @@ public class Window {
     }
 
     public void setScale(int scale) {
-        Dimension s = new Dimension((int)(engine.getSettings().getWidth() * engine.getSettings().getScale()), (int)(engine.getSettings().getHeight() * engine.getSettings().getScale()));
+        Dimension s = new Dimension((int) (engine.getSettings().getWidth() * engine.getSettings().getScale()), (int) (engine.getSettings().getHeight() * engine.getSettings().getScale()));
         canvas.setPreferredSize(s);
         canvas.setMaximumSize(s);
         canvas.setMinimumSize(s);

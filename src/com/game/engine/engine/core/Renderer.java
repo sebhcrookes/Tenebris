@@ -1,7 +1,10 @@
-package com.game.engine.engine.core.rendering;
+package com.game.engine.engine.core;
 
 import com.game.engine.engine.core.GameEngine;
-import com.game.engine.engine.gfx.*;
+import com.game.engine.engine.gfx.Colour;
+import com.game.engine.engine.gfx.Font;
+import com.game.engine.engine.gfx.Image;
+import com.game.engine.engine.gfx.Light;
 import com.game.engine.engine.gfx.temp.ImageData;
 import com.game.engine.engine.gfx.temp.LightData;
 
@@ -12,23 +15,25 @@ import java.util.Comparator;
 
 public class Renderer {
 
-    private GameEngine engine;
+    public Font font = Font.STANDARD;
+    private final GameEngine engine;
 
-    private ArrayList<ImageData> tempImageData = new ArrayList<>();
-    private ArrayList<LightData> tempLightData = new ArrayList<>();
+    private final ArrayList<ImageData> tempImageData = new ArrayList<>();
+    private final ArrayList<LightData> tempLightData = new ArrayList<>();
 
-    private int screenWidth, screenHeight;
-    private int[] pixels;
-    private int[] zBuffer;
+    private final int screenWidth;
+    private final int screenHeight;
+
+    private final int[] pixels;
+    private final int[] zBuffer;
     private int[] lightMap;
     private int[] lightBlock;
 
     private float camX, camY;
     private int zDepth = 0;
 
-    private int ambientColour = 0xFF555555;
+    private final int ambientColour = 0xFF555555;
 
-    public Font font = Font.STANDARD;
     private boolean processing = false;
 
     public Renderer(GameEngine engine) {
@@ -39,7 +44,7 @@ public class Renderer {
         pixels = ((DataBufferInt) this.engine.getWindow().getImage().getRaster().getDataBuffer()).getData();
         zBuffer = new int[pixels.length];
 
-        if(this.engine.getSettings().isLightingEnabled()) { // Initialise the lightmap arrays
+        if (this.engine.getSettings().isLightingEnabled()) { // Initialise the lightmap arrays
             lightMap = new int[pixels.length];
             lightBlock = new int[pixels.length];
         }
@@ -53,7 +58,7 @@ public class Renderer {
     public void clear() {
         Arrays.fill(pixels, engine.getClearColour());
         Arrays.fill(zBuffer, 0);
-        if(engine.getSettings().isLightingEnabled()) {
+        if (engine.getSettings().isLightingEnabled()) {
             Arrays.fill(lightMap, ambientColour);
             Arrays.fill(lightBlock, Light.NONE);
         }
@@ -80,7 +85,7 @@ public class Renderer {
             drawImage(iR.image, iR.offX, iR.offY); // Draw the image
         }
 
-        if(engine.getSettings().isLightingEnabled()) { // Draw and blend lighting together
+        if (engine.getSettings().isLightingEnabled()) { // Draw and blend lighting together
             for (LightData l : tempLightData) {
                 drawLightRequest(l.light, l.posX, l.posY);
             }
@@ -100,19 +105,19 @@ public class Renderer {
     }
 
     public void setPixel(int x, int y, int value) {
-        int alpha = (int)Colour.getAlpha(value); // Get the alpha value from the colour
+        int alpha = (int) Colour.getAlpha(value); // Get the alpha value from the colour
 
-        if((x < 0 || x >= screenWidth || y < 0 || y >= screenHeight) || alpha == 0)
+        if ((x < 0 || x >= screenWidth || y < 0 || y >= screenHeight) || alpha == 0)
             return; // Don't render pixels off-screen or with an alpha of 0
 
         int pixelIndex = x + y * screenWidth;
 
-        if(zBuffer[pixelIndex] > zDepth)
+        if (zBuffer[pixelIndex] > zDepth)
             return;
 
         zBuffer[pixelIndex] = zDepth;
 
-        if(alpha == 255) // Render a solid colour (with alpha 255)
+        if (alpha == 255) // Render a solid colour (with alpha 255)
             pixels[pixelIndex] = value;
         else { // If our pixel has alpha, we want to blend the colours together
             int pixelColour = pixels[pixelIndex];
@@ -141,13 +146,13 @@ public class Renderer {
 
         int offset = 0; // The offset we use while drawing
 
-        for(int i = 0; i < text.length(); i++) {
+        for (int i = 0; i < text.length(); i++) {
             int unicode = text.codePointAt(i); // Get the unicode value for the character we are on
 
-            for(int y = 0; y < font.getFontImage().getHeight(); y++) {
-                for(int x = 0; x < font.getWidths()[unicode]; x++) {
+            for (int y = 0; y < font.getFontImage().getHeight(); y++) {
+                for (int x = 0; x < font.getWidths()[unicode]; x++) {
                     int pixelColour = font.getFontImage().getPixels()[x + font.getOffsets()[unicode] + y * font.getFontImage().getWidth()];
-                    if(pixelColour != bgColour && pixelColour != charStart && pixelColour != charEnd) {
+                    if (pixelColour != bgColour && pixelColour != charStart && pixelColour != charEnd) {
                         setPixel(x + posX + offset, y + posY, colour); // Set pixels on screen to the un-reserved font pixels
                     }
                 }
@@ -161,13 +166,13 @@ public class Renderer {
         posX -= camX;
         posY -= camY;
 
-        if(image.isAlpha() && !processing) // Process our alpha images and layer them correctly
+        if (image.isAlpha() && !processing) // Process our alpha images and layer them correctly
             tempImageData.add(new ImageData(image, zDepth, posX, posY));
 
-        for(int y = 0; y < image.getHeight(); y++) {
-            for(int x = 0; x < image.getWidth(); x++) {
-                setPixel(x + posX,y + posY, image.getPixels()[(x) + (y) * image.getWidth()]);
-                if(engine.getSettings().isLightingEnabled())
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
+                setPixel(x + posX, y + posY, image.getPixels()[(x) + (y) * image.getWidth()]);
+                if (engine.getSettings().isLightingEnabled())
                     setLightBlock(x + posX, y + posY, image.getLightBlock()); // Set the pixel to a light-block if it blocks light
             }
         }
@@ -178,12 +183,12 @@ public class Renderer {
         posX -= camX;
         posY -= camY;
 
-        for(int y = 0; y <= height; y++) { // Drawing the vertical sides
+        for (int y = 0; y <= height; y++) { // Drawing the vertical sides
             setPixel(posX, y + posY, colour);
             setPixel(posX + width, y + posY, colour);
         }
 
-        for(int x = 0; x <= width; x++) { // Drawing the horizontal sides
+        for (int x = 0; x <= width; x++) { // Drawing the horizontal sides
             setPixel(posX + x, posY, colour);
             setPixel(posX + x, posY + height, colour);
         }
@@ -196,7 +201,7 @@ public class Renderer {
 
         for (int y = 0; y <= height; y++) { // Loops through every pixel in the rect and sets the pixel
             for (int x = 0; x <= width; x++) {
-                setPixel((int)(x + posX), (int)(y + posY), colour);
+                setPixel((int) (x + posX), (int) (y + posY), colour);
             }
         }
     }
@@ -229,9 +234,11 @@ public class Renderer {
             while (true) {
                 setPixel(x, y, colour);
                 if (y == y2) break; // We reached our destination
-                y += iy; d += dx2;
+                y += iy;
+                d += dx2;
                 if (d > dy)
-                    x += ix; d -= dy2;
+                    x += ix;
+                d -= dy2;
             }
         }
     }
@@ -239,11 +246,11 @@ public class Renderer {
     public void drawCircle(int offX, int offY, int radius, int colour) {
         offX = offX + (radius);
         offY = offY + (radius);
-        int d = (5 - radius * 4)/4;
+        int d = (5 - radius * 4) / 4;
         int x = 0;
         int y = radius;
 
-        while(x <= y) {
+        while (x <= y) {
             setPixel(offX + x, offY + y, colour);
             setPixel(offX + x, offY - y, colour);
             setPixel(offX - x, offY + y, colour);
@@ -252,9 +259,9 @@ public class Renderer {
             setPixel(offX + y, offY - x, colour);
             setPixel(offX - y, offY + x, colour);
             setPixel(offX - y, offY - x, colour);
-            if(d < 0) {
+            if (d < 0) {
                 d += 2 * x + 1;
-            }else{
+            } else {
                 d += 2 * (x - y) + 1;
                 y--;
             }
@@ -273,7 +280,7 @@ public class Renderer {
 
     public void setLightMap(int x, int y, int value) {
 
-        if(x < 0 || x >= screenWidth || y < 0 || y >= screenHeight)
+        if (x < 0 || x >= screenWidth || y < 0 || y >= screenHeight)
             return; // Don't render
 
         int baseColour = lightMap[x + y * screenWidth];
@@ -286,10 +293,10 @@ public class Renderer {
     }
 
     public void setLightBlock(int x, int y, int value) {
-        if(x < 0 || x >= screenWidth || y < 0 || y >= screenHeight)
+        if (x < 0 || x >= screenWidth || y < 0 || y >= screenHeight)
             return; // Don't render
 
-        if(zBuffer[x + y * screenWidth] > zDepth)
+        if (zBuffer[x + y * screenWidth] > zDepth)
             return;
 
         lightBlock[x + y * screenWidth] = value;
@@ -300,7 +307,7 @@ public class Renderer {
         offX -= camX;
         offY -= camY;
 
-        for(int i = 0; i <= l.getDiameter(); i++) {
+        for (int i = 0; i <= l.getDiameter(); i++) {
             drawLightLine(l, l.getRadius(), l.getRadius(), i, 0, offX, offY);
             drawLightLine(l, l.getRadius(), l.getRadius(), i, l.getDiameter(), offX, offY);
             drawLightLine(l, l.getRadius(), l.getRadius(), 0, i, offX, offY);
@@ -319,32 +326,32 @@ public class Renderer {
         int err = dx - dy;
         int e2;
 
-        while(true) { // Using Bresenham's line drawing algorithm
+        while (true) { // Using Bresenham's line drawing algorithm
 
             int screenX = x0 - l.getRadius() + offX;
             int screenY = y0 - l.getRadius() + offY;
 
-            if(screenX < 0 || screenX >= screenWidth || screenY < 0 || screenY >= screenHeight)
+            if (screenX < 0 || screenX >= screenWidth || screenY < 0 || screenY >= screenHeight)
                 return;
 
             int lightColour = l.getLightValue(x0, y0);
-            if(lightColour == 0)
+            if (lightColour == 0)
                 return;
 
-            if(lightBlock[screenX + screenY * screenWidth] == Light.FULL)
+            if (lightBlock[screenX + screenY * screenWidth] == Light.FULL)
                 return;
 
             setLightMap(screenX, screenY, lightColour);
 
-            if(x0 == x1 && y0 == y1) break; // We reached the destination
+            if (x0 == x1 && y0 == y1) break; // We reached the destination
 
             e2 = 2 * err;
-            if(e2 > -1 * dy) {
+            if (e2 > -1 * dy) {
                 err -= dy;
                 x0 += sx;
             }
 
-            if(e2 < dx) {
+            if (e2 < dx) {
                 err += dx;
                 y0 += sy;
             }

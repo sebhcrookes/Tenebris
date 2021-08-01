@@ -8,6 +8,7 @@ public abstract class Game {
     private EngineAPI api;
 
     public abstract void init(EngineAPI api);
+
     public abstract void dispose();
 
     public State getState() {
@@ -15,7 +16,7 @@ public abstract class Game {
     }
 
     public void setState(State state) {
-        if(this.state != null)
+        if (this.state != null)
             this.state.dispose(api);
         this.state = state;
         this.state.init(api);

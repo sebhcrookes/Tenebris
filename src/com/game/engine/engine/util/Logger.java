@@ -2,10 +2,6 @@ package com.game.engine.engine.util;
 
 public class Logger {
 
-    private static String title = "";
-
-    private static String log = "";
-
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -15,35 +11,27 @@ public class Logger {
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
-
     public static final int INFO = 0;
     public static final int ERROR = 1;
     public static final int FATAL_ERROR = 2;
     public static final int ENGINE_INFO = 3;
     public static final int TENEBRIS_INFO = 4;
-
+    private static String title = "";
+    private static String log = "";
     private static String INFO_TEXT;
     private static String ERROR_TEXT;
     private static String FATAL_ERROR_TEXT;
     private static String ENGINE_INFO_TEXT;
     private static String TENEBRIS_INFO_TEXT;
 
-    public void init(String gameTitle) {
-        title = gameTitle;
-        INFO_TEXT = "<" + title + ">: Info - ";
-        ERROR_TEXT = "<" + title + ">: Error - ";
-        FATAL_ERROR_TEXT = "<" + title + ">: Error - ";
-        ENGINE_INFO_TEXT = "<Engine>: Info - ";
-        TENEBRIS_INFO_TEXT = "<Tenebris>: Info - ";
-    }
-
     /**
      * Prints a message to the console
-     * @param type Message Type (INFO, ERROR, FATAL_ERROR)
+     *
+     * @param type    Message Type (INFO, ERROR, FATAL_ERROR)
      * @param message Message to log
      */
     public static void log(int type, String message) {
-        switch(type) {
+        switch (type) {
             case INFO:
                 log += "\n" + INFO_TEXT + message;
                 System.out.println(ANSI_GREEN + INFO_TEXT + ANSI_RESET + message);
@@ -68,5 +56,14 @@ public class Logger {
                 log += "\n" + INFO_TEXT + message;
                 System.out.println(ANSI_GREEN + INFO_TEXT + ANSI_RESET + message);
         }
+    }
+
+    public void init(String gameTitle) {
+        title = gameTitle;
+        INFO_TEXT = "<" + title + ">: Info - ";
+        ERROR_TEXT = "<" + title + ">: Error - ";
+        FATAL_ERROR_TEXT = "<" + title + ">: Error - ";
+        ENGINE_INFO_TEXT = "<Engine>: Info - ";
+        TENEBRIS_INFO_TEXT = "<Tenebris>: Info - ";
     }
 }

@@ -23,16 +23,17 @@ public class SoundClip {
                     baseFormat.getChannels() * 2,
                     baseFormat.getSampleRate(),
                     false
-                    );
+            );
 
             AudioInputStream dais = AudioSystem.getAudioInputStream(decodeFormat, ais);
 
             clip = AudioSystem.getClip();
             clip.open(dais);
-            gainControl = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 
 
-        }catch(Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     public void play() {
@@ -57,7 +58,8 @@ public class SoundClip {
             if (clip.isRunning()) {
                 clip.stop();
             }
-        }catch(Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     public void close() {
@@ -65,20 +67,23 @@ public class SoundClip {
             stop();
             clip.drain();
             clip.close();
-        }catch(Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     public void loop() {
         try {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             play();
-        }catch(Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     public boolean isRunning() {
         try {
             return clip.isRunning();
-        }catch(Exception e) {}
+        } catch (Exception e) {
+        }
         return false;
     }
 

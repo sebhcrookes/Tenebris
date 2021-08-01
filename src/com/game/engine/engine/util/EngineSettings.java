@@ -17,13 +17,18 @@ public class EngineSettings {
 
     private boolean lightingEnabled = false; // Significantly lowers frame-rate
 
-    private String iconPath = null;
-    private String cursorPath = null;
+    private final String iconPath = null;
+    private final String cursorPath = null;
 
-    public EngineSettings() {}
+    public EngineSettings() {
+    }
 
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getIconPath() {
@@ -32,10 +37,6 @@ public class EngineSettings {
 
     public String getCursorPath() {
         return cursorPath;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public int getWidth() {

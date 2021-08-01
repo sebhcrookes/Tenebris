@@ -1,18 +1,16 @@
 package com.game.engine.engine.gfx;
 
 import javax.imageio.ImageIO;
-import java.awt.image.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Image {
+    public BufferedImage image;
     private int width, height;
     private int[] pixels;
     private boolean alpha = false;
     private int lightBlock = Light.NONE;
-
-    private String path;
-
-    public BufferedImage image;
+    private final String path;
 
     public Image(String path) {
         this.path = path;
@@ -25,16 +23,18 @@ public class Image {
         } catch (Exception e) {
             try {
                 Graphics2D graphics = image.createGraphics();
-                graphics.setPaint(new Color( 255, 255, 255));
+                graphics.setPaint(new Color(255, 255, 255));
                 graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
-            }catch(Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         try {
             width = image.getWidth();
             height = image.getHeight();
             pixels = image.getRGB(0, 0, width, height, null, 0, width);
-        }catch(Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         this.image = image;
     }
@@ -68,7 +68,9 @@ public class Image {
         for (int i = 0; i < getWidth() * getHeight(); i++) {
             int alphaVal;
             int currentAlpha = ((getP(i) >> 24) & 0xff);
-            if(currentAlpha != 255) { continue; }
+            if (currentAlpha != 255) {
+                continue;
+            }
             alphaVal = alpha;
 
             int pixel = getP(i);
