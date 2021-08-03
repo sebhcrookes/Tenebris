@@ -1,5 +1,7 @@
 package com.game.engine.engine.util;
 
+import com.game.engine.engine.util.terminal.Console;
+
 import java.io.*;
 
 public class EngineFile {
@@ -7,7 +9,11 @@ public class EngineFile {
     private final String path;
 
     public EngineFile(String path) {
-        this.path = path;
+        if (new File(path).exists()) this.path = path;
+        else {
+            Console.println("<red>Error: <reset>Failed to load file");
+            this.path = "";
+        }
     }
 
     public void write(String contents) {

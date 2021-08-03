@@ -7,7 +7,8 @@ public class EngineAPI {
 
     private GameEngine engine;
 
-    public EngineAPI() {}
+    public EngineAPI() {
+    }
 
     public void init(Game game, EngineSettings engineSettings) {
         this.engine = new GameEngine(game, engineSettings);

@@ -1,6 +1,5 @@
 package com.game.engine.engine.core;
 
-import com.game.engine.engine.core.GameEngine;
 import com.game.engine.engine.gfx.Colour;
 import com.game.engine.engine.gfx.Font;
 import com.game.engine.engine.gfx.Image;

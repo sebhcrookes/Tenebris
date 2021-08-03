@@ -2,7 +2,7 @@ package com.game.engine.engine.core;
 
 import com.game.engine.engine.states.Game;
 import com.game.engine.engine.util.EngineSettings;
-import com.game.engine.engine.util.Logger;
+import com.game.engine.engine.util.terminal.Console;
 
 import java.awt.event.WindowEvent;
 
@@ -15,7 +15,6 @@ public class GameEngine implements Runnable {
     protected Input input;
     protected Game game;
     protected EngineSettings settings;
-    protected Logger logger = new Logger();
     protected EngineAPI api = new EngineAPI();
     private Thread thread;
 
@@ -28,6 +27,9 @@ public class GameEngine implements Runnable {
     }
 
     public void run() {
+
+        Console.println("<purple><Engine>: Info - <reset>Engine initialised");
+
         running = true;
 
         boolean render;
@@ -61,6 +63,7 @@ public class GameEngine implements Runnable {
                     fps = frames;
                     frames = 0;
                 }
+                Console.update(api, (float) settings.getUpdateCap());
                 game.getState().update(api, (float) settings.getUpdateCap());
                 window.update();
                 input.update();
@@ -71,6 +74,7 @@ public class GameEngine implements Runnable {
                 renderer.clear();
                 game.getState().render(api, renderer);
                 renderer.process();
+                Console.render(api, renderer);
             } else {
                 try {
                     Thread.sleep(1); // Allow the thread to sleep
@@ -82,7 +86,7 @@ public class GameEngine implements Runnable {
     }
 
     public void start() {
-        logger.init(settings.getTitle());
+        Console.init();
         window = new Window(this);
         renderer = new Renderer(this);
         input = new Input(this);
@@ -96,7 +100,6 @@ public class GameEngine implements Runnable {
             }
         });
         window.setVisible(true);
-        Logger.log(Logger.ENGINE_INFO, "Engine initialised");
     }
 
     public void stop() {
@@ -155,14 +158,6 @@ public class GameEngine implements Runnable {
 
     public void setSettings(EngineSettings settings) {
         this.settings = settings;
-    }
-
-    public Logger getLogger() {
-        return logger;
-    }
-
-    public void setLogger(Logger logger) {
-        this.logger = logger;
     }
 
     public EngineAPI getAPI() {

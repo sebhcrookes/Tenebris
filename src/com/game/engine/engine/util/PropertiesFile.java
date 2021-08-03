@@ -1,5 +1,7 @@
 package com.game.engine.engine.util;
 
+import com.game.engine.engine.util.terminal.Console;
+
 public class PropertiesFile {
 
     private String[] splitContent;
@@ -13,7 +15,7 @@ public class PropertiesFile {
 
             this.splitContent = fileContent.split("=");
         } catch (Exception e) {
-            Logger.log(Logger.ERROR, "Failed to load properties file");
+            Console.println("<red>Error: <reset>Failed to load properties file");
         }
     }
 
@@ -42,9 +44,9 @@ public class PropertiesFile {
 
     public long getHex(String key) {
         String hex = get(key);
-        if(hex.startsWith("0x")) {
+        if (hex.startsWith("0x")) {
             hex = hex.substring(2);
-        } else if(hex.startsWith("#")) {
+        } else if (hex.startsWith("#")) {
             hex = hex.substring(1);
         } else {
             return 0;

@@ -20,8 +20,7 @@ public class EngineSettings {
     private final String iconPath = null;
     private final String cursorPath = null;
 
-    public EngineSettings() {
-    }
+    public EngineSettings() {}
 
     public String getTitle() {
         return title;

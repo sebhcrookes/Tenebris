@@ -6,8 +6,7 @@ import com.game.engine.engine.util.EngineSettings;
 
 public class GameManager {
 
-    public GameManager() {
-    }
+    public GameManager() {}
 
     public void start() {
         EngineAPI api = new EngineAPI();
@@ -24,6 +23,7 @@ public class GameManager {
 
         @Override
         public void dispose() {
-        } // Called when application is exited
+            // Called when application is exited
+        }
     }
 }
