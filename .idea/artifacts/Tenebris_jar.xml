@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Tenebris:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Tenebris_jar</output-path>
+    <root id="archive" name="Tenebris.jar">
+      <element id="module-output" name="Tenebris" />
+    </root>
+  </artifact>
+</component>
