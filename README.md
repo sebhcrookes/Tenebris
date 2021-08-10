@@ -1,10 +1,10 @@
-# game.engine
+# Tenebris
 
-![game.engine banner](https://raw.githubusercontent.com/BambooPyanda/BambooPyanda/main/images/game.engine_banner.png)
+![Tenebris banner](https://raw.githubusercontent.com/BambooPyanda/Tenebris/master/res/tenebris_banner.png)
 
 ## Introduction
 
-game.engine is a game engine written in Java which uses no external libraries and has no dependencies. 
+Tenebris is a game engine written in Java which uses no external libraries and has no dependencies. 
 
 ## How to install
 
@@ -14,11 +14,11 @@ including adding a name to your repository selecting its visibility and adding a
 
 ## Configuration/How to use
 
-game.engine is extremely customisable. In `com.game.engine.engine.util.EngineSettings.java` you can find
+Tenebris is extremely customisable. In `EngineSettings.java` you can find
 configurable options which you can change to suit your requirements. Feel free to take your time to look
 around the engine and check out some of how it works.
 
-To begin creating your first game, simply head over to `com.game.engine.game.GameState.java`. Immediately
+To begin creating your first game, simply head over to `GameState.java`. Immediately
 you will be greeted by a few methods. Notably `init()`, `update()`, and `render()`.
 
 The init() function runs when the game first starts. 
@@ -30,7 +30,7 @@ To draw "Hello, world!" to the screen, go to your render function, and type:
 white colour. Run your code and now you should see that "Hello, world!" is drawn in the top-left of the
 screen.
 
-The documentation is still a work-in-progress, however you can check it out on this project's wiki [here](https://github.com/BambooPyanda/game.engine/wiki)
+The documentation is still a work-in-progress, however you can check it out on this project's wiki [here](https://github.com/BambooPyanda/Tenebris/wiki)
 
 ## Features implemented
  - [x] Main engine

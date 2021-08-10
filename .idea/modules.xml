@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/game.engine.iml" filepath="$PROJECT_DIR$/game.engine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tenebris.iml" filepath="$PROJECT_DIR$/Tenebris.iml" />
     </modules>
   </component>
 </project>
