@@ -165,6 +165,9 @@ public class Renderer {
         posX -= camX;
         posY -= camY;
 
+        posX -= image.getRotOffX();
+        posY -= image.getRotOffY();
+
         if (image.isAlpha() && !processing) // Process our alpha images and layer them correctly
             tempImageData.add(new ImageData(image, zDepth, posX, posY));
 
@@ -205,39 +208,32 @@ public class Renderer {
         }
     }
 
-    public void drawLine(int x1, int y1, int x2, int y2, int colour) {
-        int d = 0;
-        int dx = Math.abs(x2 - x1); // Change in x
-        int dy = Math.abs(y2 - y1); // Change in y
-        int dx2 = 2 * dx; // Double dx
-        int dy2 = 2 * dy; // Double dy
+    public void drawLine(int x0, int y0, int x1, int y1, int colour) {
+        int dx = Math.abs(x1 - x0); // Change in x
+        int dy = Math.abs(y1 - y0); // Change in y
 
-        // Determining the direction we're heading in
-        int ix = x1 < x2 ? 1 : -1;
-        int iy = y1 < y2 ? 1 : -1;
+        // Determining which direction we're heading in
+        int sx = x0 < x1 ? 1 : -1;
+        int sy = y0 < y1 ? 1 : -1;
 
-        int x = x1; // Start x-position
-        int y = y1; // Start y-position
+        int err = dx - dy;
+        int e2;
 
-        if (dx >= dy) {
-            while (true) {
-                setPixel(x, y, colour);
-                if (x == x2) break; // We reached our destination
-                x += ix;
-                d += dy2;
-                if (d > dx)
-                    y += iy;
-                d -= dx2;
+        while (true) { // Using Bresenham's line drawing algorithm
+
+            setPixel(x0, y0, colour);
+
+            if (x0 == x1 && y0 == y1) break; // We reached the destination
+
+            e2 = 2 * err;
+            if (e2 > -1 * dy) {
+                err -= dy;
+                x0 += sx;
             }
-        } else {
-            while (true) {
-                setPixel(x, y, colour);
-                if (y == y2) break; // We reached our destination
-                y += iy;
-                d += dx2;
-                if (d > dy)
-                    x += ix;
-                d -= dy2;
+
+            if (e2 < dx) {
+                err += dx;
+                y0 += sy;
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.game.engine.engine.core;
 
+import com.game.engine.engine.gfx.Colour;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +10,7 @@ import java.awt.image.BufferedImage;
 
 public class Window {
 
-    public Color backgroundColour = new Color(255, 255, 255);
+    public Color backgroundColour;
 
     private final JFrame frame;
     private final BufferedImage image;
@@ -19,6 +21,8 @@ public class Window {
 
     public Window(GameEngine engine) {
         this.engine = engine;
+        int colour = engine.getClearColour();
+        backgroundColour = new Color(Colour.getRed(colour), Colour.getGreen(colour), Colour.getBlue(colour));
         image = new BufferedImage(engine.getSettings().getWidth(), engine.getSettings().getHeight(), BufferedImage.TYPE_INT_RGB);
         canvas = new Canvas();
         Dimension s = new Dimension((int) (engine.getSettings().getWidth() * engine.getSettings().getScale()), (int) (engine.getSettings().getHeight() * engine.getSettings().getScale()));

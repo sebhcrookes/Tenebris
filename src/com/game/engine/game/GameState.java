@@ -3,10 +3,6 @@ package com.game.engine.game;
 import com.game.engine.engine.core.EngineAPI;
 import com.game.engine.engine.core.Renderer;
 import com.game.engine.engine.states.State;
-import com.game.engine.engine.util.PropertiesFile;
-import com.game.engine.engine.util.terminal.Console;
-
-import java.awt.event.KeyEvent;
 
 public class GameState extends State {
 

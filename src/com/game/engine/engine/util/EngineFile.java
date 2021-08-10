@@ -1,18 +1,22 @@
 package com.game.engine.engine.util;
 
-import com.game.engine.engine.util.terminal.Console;
-
 import java.io.*;
 
 public class EngineFile {
 
-    private final String path;
+    private String path;
 
     public EngineFile(String path) {
-        if (new File(path).exists()) this.path = path;
-        else {
-            Console.println("<red>Error: <reset>Failed to load file");
-            this.path = "";
+
+        if(new File(path).isDirectory() || new File(path).exists()) {
+            this.path = path;
+        } else {
+            try {
+                new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
+                this.path = path;
+            } catch (Exception ignored) {
+                this.path = path;
+            }
         }
     }
 
@@ -21,8 +25,7 @@ public class EngineFile {
             FileWriter myWriter = new FileWriter(path);
             myWriter.write(contents);
             myWriter.close();
-        } catch (IOException ignored) {
-        }
+        } catch (IOException ignored) {}
     }
 
     public String read() {

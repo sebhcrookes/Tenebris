@@ -86,19 +86,21 @@ public class GameEngine implements Runnable {
     }
 
     public void start() {
-        Console.init();
         window = new Window(this);
         renderer = new Renderer(this);
         input = new Input(this);
+
+        Console.init(api);
 
         thread = new Thread(this);
         thread.start();
 
         getWindow().getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+            public void windowClosing(WindowEvent windowEvent) {
                 stop();
             }
         });
+
         window.setVisible(true);
     }
 

@@ -9,6 +9,8 @@ import java.util.HashMap;
 
 public class Terminal {
 
+    private int nLines;
+
     private boolean isEnabled = false;
     private boolean isLogging = true;
 
@@ -17,11 +19,16 @@ public class Terminal {
 
     private final HashMap<String, Integer> terminalColours = new HashMap<>();
 
-    public Terminal() {
-        terminalColours.put("purple", 0xFFa74598);
-        terminalColours.put("red", 0xFFBC4256);
+    public Terminal(EngineAPI api) {
+
+        nLines = api.getHeight() / api.getRenderer().getFont().getFontHeight();
+
         terminalColours.put("reset", 0xFFE8E8E8);
+        terminalColours.put("green", 0xFF37DC58);
         terminalColours.put("orange", 0xFFDE6636);
+        terminalColours.put("red", 0xFFBC4256);
+        terminalColours.put("purple", 0xFFa74598);
+        terminalColours.put("yellow", 0xFFFFFF00);
     }
 
     public void println(String text) {
@@ -70,10 +77,10 @@ public class Terminal {
     }
 
     private void pack() {
-        if (terminalContents.size() >= 5) {
+        if (terminalContents.size() >= nLines) {
             ArrayList<String> tmpContents = new ArrayList<>();
             ArrayList<String> tmpColouring = new ArrayList<>();
-            for (int i = terminalContents.size() - (5 - 1); i < terminalContents.size(); i++) {
+            for (int i = terminalContents.size() - (nLines - 1); i < terminalContents.size(); i++) {
                 tmpContents.add(terminalContents.get(i));
                 tmpColouring.add(colouring.get(i));
             }
@@ -90,7 +97,7 @@ public class Terminal {
 
     public void render(EngineAPI api, Renderer r) {
         if (isEnabled) {
-            r.drawFillRect(0, 0, api.getWidth(), 50, 0x56454545);
+            r.drawFillRect(r.getCamX(), r.getCamY(), api.getWidth(), api.getHeight(), 0x56454545);
             for (int ln = 0; ln < terminalContents.size(); ln++) {
 
                 int offset = 0;
@@ -103,7 +110,7 @@ public class Terminal {
                             currentColour = terminalColours.get(value);
                         }
                     }
-                    r.drawText(String.valueOf(terminalContents.get(ln).charAt(c)), offset, ln * r.getFont().getFontHeight(), currentColour);
+                    r.drawText(String.valueOf(terminalContents.get(ln).charAt(c)), (int)(offset + r.getCamX()), (int)(ln * r.getFont().getFontHeight() + r.getCamY()), currentColour);
                     offset += r.getFont().getTextLength(String.valueOf(terminalContents.get(ln).charAt(c)));
                 }
             }

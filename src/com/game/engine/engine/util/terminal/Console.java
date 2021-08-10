@@ -7,8 +7,8 @@ public class Console {
 
     private static Terminal terminal;
 
-    public static void init() {
-        terminal = new Terminal();
+    public static void init(EngineAPI api) {
+        terminal = new Terminal(api);
     }
 
     public static void println(String text) {

@@ -1,4 +1,4 @@
-package com.game.engine.engine.gfx;
+    package com.game.engine.engine.gfx;
 
 public class Colour {
 
@@ -19,7 +19,7 @@ public class Colour {
     }
 
     public static int getColour(float a, float r, float g, float b) {
-        return (int) (a * 255f) << 24 | (int) (r * 255f) << 16 | (int) (g * 255f) << 8 | (int) (b * 255f);
+        return (int) (a) << 24 | (int) (r * 255f) << 16 | (int) (g * 255f) << 8 | (int) (b * 255f);
     }
 
     public static int getColour(float r, float g, float b) {
