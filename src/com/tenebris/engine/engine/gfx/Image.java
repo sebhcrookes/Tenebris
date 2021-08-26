@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 public class Image {
 
-    public BufferedImage image;
+    public BufferedImage loadedImage;
 
     private int width, height;
     private int[] pixels;
@@ -32,18 +32,16 @@ public class Image {
                 Graphics2D graphics = image.createGraphics();
                 graphics.setPaint(new Color(255, 255, 255));
                 graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
-            } catch (Exception ignored) {
-            }
+            } catch (Exception ignored) {}
         }
 
         try {
             width = image.getWidth();
             height = image.getHeight();
             pixels = image.getRGB(0, 0, width, height, null, 0, width);
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
 
-        this.image = image;
+        this.loadedImage = image;
     }
 
 
@@ -72,7 +70,7 @@ public class Image {
     }
 
     public void setRotation(int degree) {
-        BufferedImage tempImg = rotate(image, degree);
+        BufferedImage tempImg = rotate(loadedImage, degree);
         pixels = tempImg.getRGB(0, 0, width, height, null, 0, width);
     }
 

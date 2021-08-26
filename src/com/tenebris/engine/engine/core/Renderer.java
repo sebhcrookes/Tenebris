@@ -23,6 +23,9 @@ public class Renderer {
     private final int screenWidth;
     private final int screenHeight;
 
+    private int clearColour = 0xFF18191A;
+    private int interpolationColour = 0xFF000000;
+
     private final int[] pixels;
     private final int[] zBuffer;
     private int[] lightMap;
@@ -55,11 +58,25 @@ public class Renderer {
     //================================================================================
 
     public void clear() {
-        Arrays.fill(pixels, engine.getClearColour());
         Arrays.fill(zBuffer, 0);
         if (engine.getSettings().isLightingEnabled()) {
             Arrays.fill(lightMap, ambientColour);
             Arrays.fill(lightBlock, Light.NONE);
+        }
+
+        if(clearColour != interpolationColour) {
+            double row = 0;
+            double incrementBy = 0.005;
+
+            for (int y = 0; y < screenHeight; y++) {
+                row += incrementBy;
+                for (int x = 0; x < screenWidth; x++) {
+                    int value = Colour.mixColours(interpolationColour, clearColour, (float) row);
+                    setPixel(x, y, value);
+                }
+            }
+        } else {
+            Arrays.fill(pixels, clearColour);
         }
     }
 
@@ -356,6 +373,23 @@ public class Renderer {
     //================================================================================
     // Getters and Setters
     //================================================================================
+
+    public int getClearColour() {
+        return clearColour;
+    }
+
+    public void setClearColour(int clearColour) {
+        this.clearColour = clearColour;
+        this.interpolationColour = clearColour;
+    }
+
+    public int getInterpolationColour() {
+        return interpolationColour;
+    }
+
+    public void setInterpolationColour(int interpolateFrom) {
+        this.interpolationColour = interpolateFrom;
+    }
 
     public Font getFont() {
         return font;

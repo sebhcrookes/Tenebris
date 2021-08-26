@@ -13,7 +13,7 @@ public class Window {
     public Color backgroundColour;
 
     private final JFrame frame;
-    private final BufferedImage image;
+    private BufferedImage image;
     private final Canvas canvas;
     private final BufferStrategy bs;
     private final Graphics g;
@@ -21,17 +21,22 @@ public class Window {
 
     public Window(GameEngine engine) {
         this.engine = engine;
+
         int colour = engine.getClearColour();
+
         backgroundColour = new Color(Colour.getRed(colour), Colour.getGreen(colour), Colour.getBlue(colour));
         image = new BufferedImage(engine.getSettings().getWidth(), engine.getSettings().getHeight(), BufferedImage.TYPE_INT_RGB);
         canvas = new Canvas();
+
         Dimension s = new Dimension((int) (engine.getSettings().getWidth() * engine.getSettings().getScale()), (int) (engine.getSettings().getHeight() * engine.getSettings().getScale()));
+
         canvas.setPreferredSize(s);
         canvas.setMaximumSize(s);
         canvas.setMinimumSize(s);
         canvas.setFocusable(true);
 
         frame = new JFrame(engine.getSettings().getTitle());
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBackground(backgroundColour);
 
@@ -68,6 +73,8 @@ public class Window {
 
     public void update() {
         g.drawImage(image, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
+        if(engine.getSettings().isShowFPS()) frame.setTitle(engine.getSettings().getTitle() + " - FPS: " + engine.getFps());
+
         bs.show();
     }
 

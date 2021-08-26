@@ -1,5 +1,7 @@
 package com.tenebris.engine.engine.core;
 
+import com.tenebris.engine.engine.objects.Camera;
+import com.tenebris.engine.engine.objects.Objects;
 import com.tenebris.engine.engine.states.Game;
 import com.tenebris.engine.engine.util.EngineSettings;
 
@@ -7,8 +9,7 @@ public class EngineAPI {
 
     private GameEngine engine;
 
-    public EngineAPI() {
-    }
+    public EngineAPI() {}
 
     public void init(Game game, EngineSettings engineSettings) {
         this.engine = new GameEngine(game, engineSettings);
@@ -35,55 +36,63 @@ public class EngineAPI {
     // API Methods
 
     public int getWidth() {
-        return engine.settings.getWidth();
+        return engine.getSettings().getWidth();
     }
 
     public void setWidth(int width) {
-        engine.settings.setWidth(width);
+        engine.getSettings().setWidth(width);
     }
 
     public int getHeight() {
-        return engine.settings.getHeight();
+        return engine.getSettings().getHeight();
     }
 
     public void setHeight(int height) {
-        engine.settings.setHeight(height);
+        engine.getSettings().setHeight(height);
     }
 
     public String getTitle() {
-        return engine.settings.getTitle();
+        return engine.getSettings().getTitle();
     }
 
     public void setTitle(String title) {
-        engine.settings.setTitle(title);
+        engine.getSettings().setTitle(title);
     }
 
     public float getScale() {
-        return engine.settings.getScale();
+        return engine.getSettings().getScale();
     }
 
     public Window getWindow() {
-        return engine.window;
+        return engine.getWindow();
     }
 
     public Input getInput() {
-        return engine.input;
+        return engine.getInput();
     }
 
     public int getFPS() {
-        return engine.fps;
+        return engine.getFps();
     }
 
     public Renderer getRenderer() {
-        return engine.renderer;
+        return engine.getRenderer();
     }
 
     public EngineSettings getSettings() {
-        return engine.settings;
+        return engine.getSettings();
     }
 
     public Game getGame() {
-        return engine.game;
+        return engine.getGame();
+    }
+
+    public Objects getObjects() {
+        return engine.getObjects();
+    }
+
+    public Camera getCamera() {
+        return engine.getCamera();
     }
 
     public void setClearColour(int clearColour) {

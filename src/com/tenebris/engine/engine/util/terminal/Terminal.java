@@ -29,6 +29,7 @@ public class Terminal {
         terminalColours.put("red", 0xFFBC4256);
         terminalColours.put("purple", 0xFFa74598);
         terminalColours.put("yellow", 0xFFFFFF00);
+        terminalColours.put("cyan", 0xFF3CADCA);
     }
 
     public void println(String text) {
@@ -90,7 +91,7 @@ public class Terminal {
     }
 
     public void update(EngineAPI api, float dt) {
-        if (api.getInput().isKeyDown(KeyEvent.VK_F3) && api.getSettings().isDebug()) {
+        if (api.getInput().isKeyDown(KeyEvent.VK_F3) && api.getSettings().isTerminalEnabled()) {
             isEnabled = !isEnabled;
         }
     }

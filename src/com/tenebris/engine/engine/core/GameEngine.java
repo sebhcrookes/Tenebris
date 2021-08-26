@@ -1,7 +1,11 @@
 package com.tenebris.engine.engine.core;
 
+import com.tenebris.engine.engine.objects.Camera;
+import com.tenebris.engine.engine.objects.Objects;
+import com.tenebris.engine.engine.objects.components.Physics;
 import com.tenebris.engine.engine.states.Game;
 import com.tenebris.engine.engine.util.EngineSettings;
+import com.tenebris.engine.engine.util.ErrorHandler;
 import com.tenebris.engine.engine.util.terminal.Console;
 
 import java.awt.event.WindowEvent;
@@ -10,15 +14,17 @@ public class GameEngine implements Runnable {
 
     public int fps = 0;
 
-    protected Renderer renderer;
-    protected Window window;
-    protected Input input;
-    protected Game game;
-    protected EngineSettings settings;
-    protected EngineAPI api = new EngineAPI();
+    private Renderer renderer;
+    private Window window;
+    private Input input;
+    private Game game;
+    private EngineSettings settings;
+    private EngineAPI api = new EngineAPI();
     private Thread thread;
 
-    private int clearColour = 0xFF000000;
+    private Objects objects;
+    private Camera camera;
+
     private boolean running = false;
 
     public GameEngine(Game game, EngineSettings settings) {
@@ -28,60 +34,78 @@ public class GameEngine implements Runnable {
 
     public void run() {
 
-        Console.println("<purple><Engine>: Info - <reset>Engine initialised");
+        try {
 
-        running = true;
+            Console.println("<purple>Tenebris Engine - <reset>Engine initialised");
 
-        boolean render;
-        double firstTime;
-        double lastTime = System.nanoTime() / 1000000000.0;
-        double passedTime;
-        double unprocessedTime = 0;
+            running = true;
 
-        double frameTime = 0;
-        int frames = 0;
+            boolean render;
+            double firstTime;
+            double lastTime = System.nanoTime() / 1000000000.0;
+            double passedTime;
+            double unprocessedTime = 0;
 
-        game.setAPI(api);
-        game.init(api);
+            double frameTime = 0;
+            int frames = 0;
 
-        while (running) {
-            render = !settings.isLockFPS(); // Change to uncap frame-rate
+            camera.init(api);
 
-            firstTime = System.nanoTime() / 1000000000.0;
-            passedTime = firstTime - lastTime;
-            lastTime = firstTime;
+            game.setAPI(api);
+            game.init(api);
 
-            unprocessedTime += passedTime;
-            frameTime += passedTime;
+            while (running) {
+                render = !settings.isLockFPS(); // Change to uncap frame-rate
 
-            while (unprocessedTime >= settings.getUpdateCap()) {
-                unprocessedTime -= settings.getUpdateCap();
-                render = true;
+                firstTime = System.nanoTime() / 1000000000.0;
+                passedTime = firstTime - lastTime;
+                lastTime = firstTime;
 
-                if (frameTime >= 1.0) {
-                    frameTime = 0;
-                    fps = frames;
-                    frames = 0;
+                unprocessedTime += passedTime;
+                frameTime += passedTime;
+
+                while (unprocessedTime >= settings.getUpdateCap()) {
+                    unprocessedTime -= settings.getUpdateCap();
+                    render = true;
+
+                    if (frameTime >= 1.0) {
+                        frameTime = 0;
+                        fps = frames;
+                        frames = 0;
+                    }
+                    Console.update(api, (float) settings.getUpdateCap());
+
+                    objects.update(api, (float) settings.getUpdateCap());
+                    Physics.update();
+
+                    game.getState().update(api, (float) settings.getUpdateCap());
+                    camera.update(api, (float) settings.getUpdateCap());
+
+                    window.update();
+                    input.update();
                 }
-                Console.update(api, (float) settings.getUpdateCap());
-                game.getState().update(api, (float) settings.getUpdateCap());
-                window.update();
-                input.update();
-            }
 
-            if (render) { // Render the game
-                frames++;
-                renderer.clear();
-                game.getState().render(api, renderer);
-                renderer.process();
-                Console.render(api, renderer);
-            } else {
-                try {
-                    Thread.sleep(1); // Allow the thread to sleep
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if (render) { // Render the game
+                    frames++;
+                    renderer.clear();
+                    game.getState().render(api, renderer);
+                    objects.render(api, renderer);
+
+                    camera.render(renderer);
+
+                    renderer.process();
+                    Console.render(api, renderer);
+                } else {
+                    try {
+                        Thread.sleep(1); // Allow the thread to sleep
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+        } catch (Exception e) { // Whole engine error handling
+            e.printStackTrace();
+            ErrorHandler.createErrorPane(e);
         }
     }
 
@@ -89,6 +113,11 @@ public class GameEngine implements Runnable {
         window = new Window(this);
         renderer = new Renderer(this);
         input = new Input(this);
+
+        objects = new Objects(this);
+
+        camera = new Camera();
+        camera.lock();
 
         Console.init(api);
 
@@ -170,12 +199,24 @@ public class GameEngine implements Runnable {
         this.api = api;
     }
 
+    public Objects getObjects() {
+        return objects;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
     public int getClearColour() {
-        return clearColour;
+        try {
+            return renderer.getClearColour();
+        } catch (NullPointerException ignored) { // Everytime we create the window, we get a NullPointerException (I should probably fix this at some point)
+            return 0;
+        }
     }
 
     public void setClearColour(int clearColour) {
-        this.clearColour = clearColour;
+        renderer.setClearColour(clearColour);
     }
 
     public int getFps() {

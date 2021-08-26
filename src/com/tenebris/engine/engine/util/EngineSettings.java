@@ -6,14 +6,16 @@ public class EngineSettings {
      * EngineSettings class allows for simple modification to engine-related settings
      */
 
-    private String title = "Tenebris";
+    private String title = "game.exe";
     private int width = 512;
     private int height = 288;
     private float scale = 2.0f;
 
     private double updateCap = 1.0 / 60.0;
     private boolean debug = false;
+    private boolean terminalEnabled = true;
     private boolean lockFPS = false;
+    private boolean showFPS = true;
 
     private boolean lightingEnabled = false; // Significantly lowers frame-rate
 
@@ -92,5 +94,21 @@ public class EngineSettings {
 
     public void setLightingEnabled(boolean lightingEnabled) {
         this.lightingEnabled = lightingEnabled;
+    }
+
+    public boolean isTerminalEnabled() {
+        return terminalEnabled;
+    }
+
+    public void setTerminalEnabled(boolean terminalEnabled) {
+        this.terminalEnabled = terminalEnabled;
+    }
+
+    public boolean isShowFPS() {
+        return showFPS;
+    }
+
+    public void setShowFPS(boolean showFPS) {
+        this.showFPS = showFPS;
     }
 }

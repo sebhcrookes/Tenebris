@@ -1,6 +1,7 @@
 package com.tenebris.engine.engine.core;
 
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class Input implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -17,11 +18,17 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
     private int mouseX, mouseY;
     private int scroll;
 
+    private boolean typing;
+    private ArrayList<String> typed;
+
     public Input(GameEngine gc) {
         this.gc = gc;
         mouseX = 0;
         mouseY = 0;
         scroll = 0;
+
+        typing = false;
+        typed = new ArrayList<>();
 
         gc.getWindow().getCanvas().addKeyListener(this);
         gc.getWindow().getCanvas().addMouseMotionListener(this);
@@ -65,9 +72,41 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
         return buttons[button] && !buttonsLast[button];
     }
 
+    public void startTyping() {
+        this.typing = true;
+        typed.add("");
+    }
+
+    public ArrayList<String> endTyping() {
+        this.typing = false;
+        ArrayList<String> tmp = typed;
+        typed.clear();
+        return tmp;
+    }
+
+    public ArrayList<String> getTyped() {
+        return typed;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
-
+        if(typing) {
+            switch(e.getKeyChar()) {
+                case 0x08: // Backspace
+                    try {
+                        typed.set(typed.size() - 1, typed.get(typed.size() - 1).substring(0, typed.get(typed.size() - 1).length() - 1));
+                    } catch(StringIndexOutOfBoundsException ignored) {
+                        if(typed.size() != 1) typed.remove(typed.size() - 1);
+                    }
+                    break;
+                case 0x0A: // Newline
+                    typed.add(""); break;
+                default:
+                    if(e.getKeyChar() > 0x1F) // If it's a valid, typeable character
+                        typed.set(typed.size() - 1, typed.get(typed.size() - 1) + e.getKeyChar());
+                    break;
+            }
+        }
     }
 
     @Override
