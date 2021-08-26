@@ -37,8 +37,8 @@ The documentation is still a work-in-progress, however you can check it out on t
  - [x] Engine utilities and simple customisability
  - [x] Image layering with alpha
  - [x] Game states
+ - [x] GameObjects, Object Components and a Physics engine (half-way complete)
  - [ ] More rendering functionality
- - [ ] GameObjects and a physics engine
 
 ## Licensing
 This project is licensed under the MIT license. Read the LICENSE file for more.
