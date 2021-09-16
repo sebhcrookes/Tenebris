@@ -1,9 +1,10 @@
 package com.tenebris.engine.engine;
 
 /**
- * game.engine
- * Renderer, window, input, and other engine-related things
- * are all here.
+ * Tenebris Engine
+ * 
+ * This package contains all of the engine code, eg. all the rendering, input, terminal, graphics and
+ * timing code is here.
  *
  * @author BambooPyanda
  */
