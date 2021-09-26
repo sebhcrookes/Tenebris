@@ -12,7 +12,8 @@ public class Camera {
 
     private boolean locked = false;
 
-    public Camera() {}
+    public Camera() {
+    }
 
     public Camera(String tag) {
         this.targetTag = tag;
@@ -21,10 +22,10 @@ public class Camera {
     public void init(EngineAPI api) {
         target = api.getObjects().getByName(targetTag);
 
-        if(target != null) {
+        if (target != null) {
 
-            int targetX = (int) ((target.getPosX() + target.getWidth() / 2) - api.getWidth() / 2);
-            int targetY = (int) ((target.getPosY() + target.getHeight() / 2) - api.getHeight() / 2);
+            int targetX = (int)(target.getPosX() + target.getWidth() / 2) - api.getWidth() / 2;
+            int targetY = (int)(target.getPosY() + target.getHeight() / 2) - api.getHeight() / 2;
 
             offX = targetX;
             offY = targetY;
@@ -36,7 +37,7 @@ public class Camera {
 
     public void update(EngineAPI api, float dt) {
 
-        if(!locked) {
+        if (!locked) {
 
             if (target == null) {
                 target = api.getObjects().getByName(targetTag);
@@ -52,8 +53,8 @@ public class Camera {
 //            offX = offX - (api.getWidth() / 16) / 10;
 //        }
 
-            int targetX = (int) ((target.getPosX() + target.getWidth() / 2) - api.getWidth() / 2);
-            int targetY = (int) ((target.getPosY() + target.getHeight() / 2) - api.getHeight() / 2);
+            int targetX = (int)(target.getPosX() + target.getWidth() / 2) - api.getWidth() / 2;
+            int targetY = (int)(target.getPosY() + target.getHeight() / 2) - api.getHeight() / 2;
 
             offX -= (dt * (offX - targetX) * 4);
             offY -= (dt * (offY - targetY) * 7);

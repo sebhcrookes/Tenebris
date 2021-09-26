@@ -7,9 +7,12 @@ import com.tenebris.engine.engine.objects.GameObject;
 public abstract class Component {
 
     protected String tag;
+    protected int priority = 0;
 
     public abstract void update(EngineAPI api, float dt);
+
     public abstract void render(EngineAPI api, Renderer r);
+
     public abstract void collision(GameObject other);
 
     public String getTag() {
@@ -18,5 +21,18 @@ public abstract class Component {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    @Override
+    public String toString() {
+        return this.tag;
     }
 }

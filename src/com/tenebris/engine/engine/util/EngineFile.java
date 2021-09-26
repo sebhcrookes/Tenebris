@@ -8,7 +8,7 @@ public class EngineFile {
 
     public EngineFile(String path) {
 
-        if(new File(path).isDirectory() || new File(path).exists()) {
+        if (new File(path).isDirectory() || new File(path).exists()) {
             this.path = path;
         } else {
             try {
@@ -25,7 +25,8 @@ public class EngineFile {
             FileWriter myWriter = new FileWriter(path);
             myWriter.write(contents);
             myWriter.close();
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }
     }
 
     public String read() {

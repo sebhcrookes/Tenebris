@@ -13,7 +13,7 @@ public class Window {
     public Color backgroundColour;
 
     private final JFrame frame;
-    private BufferedImage image;
+    private final BufferedImage image;
     private final Canvas canvas;
     private final BufferStrategy bs;
     private final Graphics g;
@@ -73,7 +73,8 @@ public class Window {
 
     public void update() {
         g.drawImage(image, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
-        if(engine.getSettings().isShowFPS()) frame.setTitle(engine.getSettings().getTitle() + " - FPS: " + engine.getFps());
+        if (engine.getSettings().isShowFPS())
+            frame.setTitle(engine.getSettings().getTitle() + " - FPS: " + engine.getFps());
 
         bs.show();
     }

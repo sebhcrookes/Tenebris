@@ -2,7 +2,6 @@ package com.tenebris.engine.engine.core;
 
 import com.tenebris.engine.engine.objects.Camera;
 import com.tenebris.engine.engine.objects.Objects;
-import com.tenebris.engine.engine.objects.components.Physics;
 import com.tenebris.engine.engine.states.Game;
 import com.tenebris.engine.engine.util.EngineSettings;
 import com.tenebris.engine.engine.util.ErrorHandler;
@@ -36,7 +35,7 @@ public class GameEngine implements Runnable {
 
         try {
 
-            Console.println("<purple>Tenebris Engine - <reset>Engine initialised");
+            Console.println("<purple>Tenebris - <reset>Engine initialised");
 
             running = true;
 
@@ -76,7 +75,6 @@ public class GameEngine implements Runnable {
                     Console.update(api, (float) settings.getUpdateCap());
 
                     objects.update(api, (float) settings.getUpdateCap());
-                    Physics.update();
 
                     game.getState().update(api, (float) settings.getUpdateCap());
                     camera.update(api, (float) settings.getUpdateCap());
@@ -109,8 +107,9 @@ public class GameEngine implements Runnable {
         }
     }
 
-    public void start() {
+    public void init() {
         window = new Window(this);
+
         renderer = new Renderer(this);
         input = new Input(this);
 
@@ -120,6 +119,10 @@ public class GameEngine implements Runnable {
         camera.lock();
 
         Console.init(api);
+    }
+
+    public void start() {
+        this.init();
 
         thread = new Thread(this);
         thread.start();

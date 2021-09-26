@@ -6,7 +6,9 @@ import com.tenebris.engine.engine.util.EngineSettings;
 
 public class GameManager {
 
-    public GameManager() {}
+    public GameManager() {
+
+    }
 
     public void start() {
         EngineAPI api = new EngineAPI();

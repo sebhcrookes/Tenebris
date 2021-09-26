@@ -1,16 +1,17 @@
 package com.tenebris.engine.engine.audio;
 
-import com.tenebris.engine.engine.core.GameEngine;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AudioClip {
 
-    private static ArrayList<AudioClip> clips = new ArrayList<>();
+    private static final ArrayList<AudioClip> clips = new ArrayList<>();
 
     private String name;
     private Clip clip;
@@ -23,14 +24,17 @@ public class AudioClip {
 
         try {
             clip = AudioSystem.getClip();
-            inputStream = AudioSystem.getAudioInputStream(
-                    GameEngine.class.getResourceAsStream(path));
+            InputStream audioSrc = AudioClip.class.getResourceAsStream(path);
+            InputStream bufferedStream = new BufferedInputStream(audioSrc);
+            inputStream = AudioSystem.getAudioInputStream(bufferedStream);
             clip.open(inputStream);
             setVolume(0.0F);
             clip.setMicrosecondPosition(clip.getMicrosecondLength());
             clip.start();
             setVolume(1.0F);
-        } catch (Exception ignored) { ignored.printStackTrace(); }
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+        }
     }
 
     public static void addSound(String name, String path) {
@@ -39,7 +43,7 @@ public class AudioClip {
 
     public static void addSound(String name, String path, float volume) {
         clips.add(new AudioClip(name, path));
-        getSound(name).setVolume(volume);
+        Objects.requireNonNull(getSound(name)).setVolume(volume);
     }
 
     public static AudioClip getSound(String name) {
@@ -55,7 +59,7 @@ public class AudioClip {
     public synchronized void play() {
         new Thread(() -> {
             try {
-                if(!clip.isRunning()) {
+                if (!clip.isRunning()) {
                     clip.setFramePosition(0);
                     clip.start();
                 }

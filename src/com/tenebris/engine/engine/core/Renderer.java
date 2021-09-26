@@ -1,9 +1,6 @@
 package com.tenebris.engine.engine.core;
 
-import com.tenebris.engine.engine.gfx.Colour;
-import com.tenebris.engine.engine.gfx.Font;
-import com.tenebris.engine.engine.gfx.Image;
-import com.tenebris.engine.engine.gfx.Light;
+import com.tenebris.engine.engine.gfx.*;
 import com.tenebris.engine.engine.gfx.temp.ImageData;
 import com.tenebris.engine.engine.gfx.temp.LightData;
 
@@ -14,7 +11,7 @@ import java.util.Comparator;
 
 public class Renderer {
 
-    public Font font = Font.STANDARD;
+    public Font font = Fonts.STANDARD;
     private final GameEngine engine;
 
     private final ArrayList<ImageData> tempImageData = new ArrayList<>();
@@ -64,7 +61,7 @@ public class Renderer {
             Arrays.fill(lightBlock, Light.NONE);
         }
 
-        if(clearColour != interpolationColour) {
+        if (clearColour != interpolationColour) {
             double row = 0;
             double incrementBy = 0.005;
 

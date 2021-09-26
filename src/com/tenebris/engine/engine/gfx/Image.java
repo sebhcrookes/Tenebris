@@ -32,14 +32,16 @@ public class Image {
                 Graphics2D graphics = image.createGraphics();
                 graphics.setPaint(new Color(255, 255, 255));
                 graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         try {
             width = image.getWidth();
             height = image.getHeight();
             pixels = image.getRGB(0, 0, width, height, null, 0, width);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         this.loadedImage = image;
     }
@@ -96,7 +98,7 @@ public class Image {
 
         graphics.translate((nWidth - width) / 2, (nHeight - height) / 2);
 
-        graphics.rotate(radian, (double) (width / 2), (double) (height / 2));
+        graphics.rotate(radian, width / 2, height / 2);
         graphics.drawImage(buffImage, 0, 0, null);
         graphics.dispose();
 

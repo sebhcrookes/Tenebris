@@ -19,7 +19,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
     private int scroll;
 
     private boolean typing;
-    private ArrayList<String> typed;
+    private final ArrayList<String> typed;
 
     public Input(GameEngine gc) {
         this.gc = gc;
@@ -90,19 +90,20 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if(typing) {
-            switch(e.getKeyChar()) {
+        if (typing) {
+            switch (e.getKeyChar()) {
                 case 0x08: // Backspace
                     try {
                         typed.set(typed.size() - 1, typed.get(typed.size() - 1).substring(0, typed.get(typed.size() - 1).length() - 1));
-                    } catch(StringIndexOutOfBoundsException ignored) {
-                        if(typed.size() != 1) typed.remove(typed.size() - 1);
+                    } catch (StringIndexOutOfBoundsException ignored) {
+                        if (typed.size() != 1) typed.remove(typed.size() - 1);
                     }
                     break;
                 case 0x0A: // Newline
-                    typed.add(""); break;
+                    typed.add("");
+                    break;
                 default:
-                    if(e.getKeyChar() > 0x1F) // If it's a valid, typeable character
+                    if (e.getKeyChar() > 0x1F) // If it's a valid, typeable character
                         typed.set(typed.size() - 1, typed.get(typed.size() - 1) + e.getKeyChar());
                     break;
             }

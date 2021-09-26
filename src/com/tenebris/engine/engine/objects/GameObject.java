@@ -6,11 +6,15 @@ import com.tenebris.engine.engine.gfx.Image;
 import com.tenebris.engine.engine.objects.components.Component;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.UUID;
 
 public abstract class GameObject {
 
+    protected boolean dead;
+
     protected String instanceID; // A unique identifier for each object
+    protected long timeOfInstantiation;
 
     protected String type;
     protected String name;
@@ -18,6 +22,8 @@ public abstract class GameObject {
     protected int posX, posY;
 
     protected int width, height;
+
+    protected boolean grounded;
 
     protected ArrayList<Component> components;
 
@@ -30,9 +36,13 @@ public abstract class GameObject {
         this.width = width;
         this.height = height;
 
+        this.grounded = false;
+
         this.components = new ArrayList<>();
 
-        this.instanceID = UUID.randomUUID().toString();
+        this.timeOfInstantiation = System.nanoTime();
+
+        this.instanceID = UUID.randomUUID().toString(); // ("A UUID is 128 bits long, and can guarantee uniqueness across space and time" - https://www.ietf.org/rfc/rfc4122.txt)
     }
 
     public abstract void update(EngineAPI api, float dt);
@@ -46,24 +56,82 @@ public abstract class GameObject {
     }
 
     public Component findComponent(String tag) {
-        for(int i = 0; i < components.size(); i++) {
-            if(components.get(i).getTag().equals(tag)) {
-                return components.get(i);
-            }
+        for (Component component : components) {
+            if (component.getTag().equals(tag)) return component;
         }
         return null;
     }
 
-    public void updateComponents(EngineAPI api, float dt) {
-        for(int i = 0; i < components.size(); i++) {
-            components.get(i).update(api, dt);
+    public void addComponent(Component component) {
+
+        int index = 0;
+
+        if (components.size() != 0) index = components.size();
+
+        for (int i = 0; i < components.size(); i++) {
+            if (components.get(i).getPriority() > component.getPriority()) {
+                index = i;
+                break;
+            }
         }
+
+        components.add(index, component);
+    }
+
+    public void updateComponents(EngineAPI api, float dt) {
+        for (Component component : components)
+            component.update(api, dt);
     }
 
     public void renderComponents(EngineAPI api, Renderer r) {
-        for(int i = 0; i < components.size(); i++) {
-            components.get(i).render(api, r);
+        for (Component component : components)
+            component.render(api, r);
+
+    }
+
+    public void collideComponents(GameObject other) {
+        for (Component component : components)
+            component.collision(other);
+    }
+
+    public void removeComponent(String tag) {
+        for (int i = 0; i < components.size(); i++) {
+            if (components.get(i).getTag().equals(tag)) {
+                components.remove(i);
+                return;
+            }
         }
+    }
+
+    public void listComponents() {
+        System.out.println(name + " = {");
+        for (int i = 0; i < components.size(); i++) {
+            System.out.print("    C" + i + " = ('" + components.get(i).getTag() + "', 0x" + Integer.toHexString(components.get(i).getPriority()).toUpperCase(Locale.ROOT) + ")");
+            if (i + 1 != components.size()) System.out.print(",");
+            System.out.print("\n");
+        }
+        System.out.println("}\n");
+    }
+
+    @Override
+    public String toString() {
+        return this.instanceID;
+    }
+
+    public ArrayList<Component> getComponents() {
+        return components;
+    }
+
+    public void setComponents(ArrayList<Component> components) {
+        this.components = components;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 
     public String getInstanceID() {
@@ -128,5 +196,13 @@ public abstract class GameObject {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public boolean isGrounded() {
+        return grounded;
+    }
+
+    public void setGrounded(boolean grounded) {
+        this.grounded = grounded;
     }
 }

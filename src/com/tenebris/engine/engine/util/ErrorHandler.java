@@ -27,7 +27,7 @@ public class ErrorHandler {
         try {
             JOptionPane.showMessageDialog(new JFrame(), message + "\nCaused by: '" + classCause + "'", "Fatal Error",
                     JOptionPane.ERROR_MESSAGE);
-        } catch(HeadlessException he) { // If GraphicsEnvironment.isHeadless returns true (why would you be running a game in headless?)
+        } catch (HeadlessException he) { // If GraphicsEnvironment.isHeadless returns true (why would you be running a game headless?)
             System.out.println(message + "\nCaused by: '" + classCause + "'");
         }
 

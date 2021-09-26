@@ -6,7 +6,7 @@ public class EngineSettings {
      * EngineSettings class allows for simple modification to engine-related settings
      */
 
-    private String title = "game.exe";
+    private String title = "Tenebris";
     private int width = 512;
     private int height = 288;
     private float scale = 2.0f;
@@ -22,7 +22,9 @@ public class EngineSettings {
     private final String iconPath = null;
     private final String cursorPath = null;
 
-    public EngineSettings() {}
+    public EngineSettings() {
+
+    }
 
     public String getTitle() {
         return title;

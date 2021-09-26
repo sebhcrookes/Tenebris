@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class Terminal {
 
-    private int nLines;
+    private final int nLines;
 
     private boolean isEnabled = false;
     private boolean isLogging = true;
@@ -111,7 +111,7 @@ public class Terminal {
                             currentColour = terminalColours.get(value);
                         }
                     }
-                    r.drawText(String.valueOf(terminalContents.get(ln).charAt(c)), (int)(offset + r.getCamX()), (int)(ln * r.getFont().getFontHeight() + r.getCamY()), currentColour);
+                    r.drawText(String.valueOf(terminalContents.get(ln).charAt(c)), (int) (offset + r.getCamX()), (int) (ln * r.getFont().getFontHeight() + r.getCamY()), currentColour);
                     offset += r.getFont().getTextLength(String.valueOf(terminalContents.get(ln).charAt(c)));
                 }
             }

@@ -2,8 +2,6 @@ package com.tenebris.engine.engine.gfx;
 
 public class Font {
 
-    public static final Font STANDARD = new Font("/fonts/standard.png", 1);
-
     private Image fontImage;
     private int[] offsets;
     private int[] widths;
