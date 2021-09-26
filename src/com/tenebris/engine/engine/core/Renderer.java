@@ -253,6 +253,10 @@ public class Renderer {
     }
 
     public void drawCircle(int offX, int offY, int radius, int colour) {
+
+        // Bresenham's circle drawing algorithm
+        // Based on the equation x^2 + y^2 = r^2
+
         offX = offX + (radius);
         offY = offY + (radius);
         int d = (5 - radius * 4) / 4;
@@ -260,14 +264,7 @@ public class Renderer {
         int y = radius;
 
         while (x <= y) {
-            setPixel(offX + x, offY + y, colour);
-            setPixel(offX + x, offY - y, colour);
-            setPixel(offX - x, offY + y, colour);
-            setPixel(offX - x, offY - y, colour);
-            setPixel(offX + y, offY + x, colour);
-            setPixel(offX + y, offY - x, colour);
-            setPixel(offX - y, offY + x, colour);
-            setPixel(offX - y, offY - x, colour);
+            drawCirclePixels(offX, x, offY, y, colour);
             if (d < 0) {
                 d += 2 * x + 1;
             } else {
@@ -276,6 +273,17 @@ public class Renderer {
             }
             x++;
         }
+    }
+
+    private void drawCirclePixels(int offX, int x, int offY, int y, int colour) {
+            setPixel(offX + x, offY + y, colour);
+            setPixel(offX + x, offY - y, colour);
+            setPixel(offX - x, offY + y, colour);
+            setPixel(offX - x, offY - y, colour);
+            setPixel(offX + y, offY + x, colour);
+            setPixel(offX + y, offY - x, colour);
+            setPixel(offX - y, offY + x, colour);
+            setPixel(offX - y, offY - x, colour);
     }
 
 
