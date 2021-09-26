@@ -33,11 +33,10 @@ screen.
 The documentation is still a work-in-progress, however you can check it out on this project's wiki [here](https://github.com/BambooPyanda/Tenebris/wiki)
 
 ## Features implemented
- - [x] Main engine
+ - [x] Main engine (input, rendering, audio etc.)
  - [x] Engine utilities and simple customisability
- - [x] Image layering with alpha
  - [x] Game states
- - [x] GameObjects, Object Components and a Physics engine (half-way complete)
+ - [x] GameObjects, and an Entity Component System
  - [x] More rendering functionality
  - [ ] Better window functionality
 
