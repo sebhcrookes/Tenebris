@@ -7,7 +7,6 @@ import com.tenebris.engine.engine.gfx.temp.LightData;
 import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class Renderer {
 
@@ -80,18 +79,8 @@ public class Renderer {
     public void process() {
         processing = true;
 
-        tempImageData.sort(new Comparator<ImageData>() { // Sort our image data from back to front
-            @Override
-            public int compare(ImageData i0, ImageData i1) {
-                if (i0.zDepth < i1.zDepth) {
-                    return -1;
-                }
-                if (i0.zDepth < i1.zDepth) {
-                    return 1;
-                }
-                return 0;
-            }
-        });
+        // Sort our image data from back to front
+        tempImageData.sort((i0, i1) -> Integer.compare(i1.zDepth, i0.zDepth));
 
         for (ImageData iR : tempImageData) {
             setzDepth(iR.zDepth); // Set the zDepth to the value of the next image
