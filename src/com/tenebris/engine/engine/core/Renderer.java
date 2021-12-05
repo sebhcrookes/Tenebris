@@ -27,7 +27,7 @@ public class Renderer {
     private int[] lightMap;
     private int[] lightBlock;
 
-    private float camX, camY;
+    private int camX, camY;
     private int zDepth = 0;
 
     private final int ambientColour = 0xFF555555;
@@ -165,6 +165,9 @@ public class Renderer {
 
     public void drawImage(Image image, int posX, int posY) {
 
+        int originalPosX = posX;
+        int originalPosY = posY;
+
         posX -= camX;
         posY -= camY;
 
@@ -174,8 +177,18 @@ public class Renderer {
         if (image.isAlpha() && !processing) // Process our alpha images and layer them correctly
             tempImageData.add(new ImageData(image, zDepth, posX, posY));
 
+        int xOffset = (camX - originalPosX);
+        if(xOffset < 0)
+            xOffset = 0;
+
+
+        vertical:
         for (int y = 0; y < image.getHeight(); y++) {
-            for (int x = 0; x < image.getWidth(); x++) {
+            horizontal:
+            for (int x = xOffset; x < image.getWidth(); x++) {
+                if(!inViewFrustum(x + originalPosX, y + originalPosY))
+                    continue vertical;
+
                 setPixel(x + posX, y + posY, image.getPixels()[(x) + (y) * image.getWidth()]);
                 if (engine.getSettings().isLightingEnabled())
                     setLightBlock(x + posX, y + posY, image.getLightBlock()); // Set the pixel to a light-block if it blocks light
@@ -364,6 +377,15 @@ public class Renderer {
         }
     }
 
+    public boolean inViewFrustum(int posX, int posY) {
+        int top = (int) camY;
+        int bottom = (int) (camY + screenHeight);
+        int left = (int) camX;
+        int right = (int) (camX + screenWidth);
+
+        return posX >= left && posX < right && posY >= top && posY < bottom;
+    }
+
     //================================================================================
     // Getters and Setters
     //================================================================================
@@ -401,19 +423,19 @@ public class Renderer {
         this.zDepth = zDepth;
     }
 
-    public float getCamX() {
+    public int getCamX() {
         return camX;
     }
 
-    public void setCamX(float camX) {
+    public void setCamX(int camX) {
         this.camX = camX;
     }
 
-    public float getCamY() {
+    public int getCamY() {
         return camY;
     }
 
-    public void setCamY(float camY) {
+    public void setCamY(int camY) {
         this.camY = camY;
     }
 }

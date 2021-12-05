@@ -1,5 +1,7 @@
 package com.tenebris.engine.engine.audio;
 
+import com.tenebris.engine.engine.util.FileHelper;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -19,6 +21,7 @@ public class AudioClip {
     private String path;
 
     public AudioClip(String name, String path) {
+        path = FileHelper.getUseablePath(path);
         this.name = name;
         this.path = path;
 

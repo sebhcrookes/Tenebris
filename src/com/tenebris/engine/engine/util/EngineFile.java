@@ -7,6 +7,7 @@ public class EngineFile {
     private String path;
 
     public EngineFile(String path) {
+        path = FileHelper.getUseablePath(path);
 
         if (new File(path).isDirectory() || new File(path).exists()) {
             this.path = path;
@@ -44,6 +45,7 @@ public class EngineFile {
 
             return stringBuilder.toString();
         } catch (Exception e) {
+            Log.warn("Failed to read file '" + this.path + "'");
         }
         return "";
     }

@@ -1,26 +1,27 @@
 package com.tenebris.engine.game;
 
-import javax.swing.*;
+import com.tenebris.engine.engine.core.EngineAPI;
+import com.tenebris.engine.engine.states.Game;
+import com.tenebris.engine.engine.util.EngineSettings;
 
 public class Launcher {
 
     public static void main(String[] args) {
-        startGame();
+        EngineAPI api = new EngineAPI();
+        api.init(new TestGame(), new EngineSettings());
+        api.start();
+    }
+}
+
+class TestGame extends Game {
+
+    @Override
+    public void init(EngineAPI api) {
+        this.setState(new GameState());
     }
 
-    public static void startGame() {
-        GameManager gm = new GameManager();
-        try {
-            gm.start();
-        } catch (Exception e) {
-            System.out.println("There was an error during runtime. Exception: " + e.toString());
-            e.printStackTrace();
-            String message = e.toString();
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(new JFrame(), message, "Fatal Error",
-                    JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
+    @Override
+    public void dispose() {
+        // Called when application is exited
     }
-
 }

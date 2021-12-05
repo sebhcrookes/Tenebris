@@ -3,7 +3,6 @@ package com.tenebris.engine.engine.core;
 import com.tenebris.engine.engine.states.Game;
 import com.tenebris.engine.engine.util.EngineSettings;
 import com.tenebris.engine.engine.util.ErrorHandler;
-import com.tenebris.engine.engine.util.terminal.Console;
 
 import java.awt.event.WindowEvent;
 
@@ -29,8 +28,6 @@ public class GameEngine implements Runnable {
     public void run() {
 
         try {
-
-            Console.println("<purple>Tenebris - <reset>Engine initialised");
 
             running = true;
 
@@ -65,7 +62,6 @@ public class GameEngine implements Runnable {
                         fps = frames;
                         frames = 0;
                     }
-                    Console.update(api, (float) settings.getUpdateCap());
 
                     game.getState().update(api, (float) settings.getUpdateCap());
 
@@ -79,7 +75,6 @@ public class GameEngine implements Runnable {
                     game.getState().render(api, renderer);
 
                     renderer.process();
-                    Console.render(api, renderer);
                 } else {
                     try {
                         Thread.sleep(1); // Allow the thread to sleep
@@ -99,8 +94,6 @@ public class GameEngine implements Runnable {
 
         renderer = new Renderer(this);
         input = new Input(this);
-
-        Console.init(api);
     }
 
     public void start() {

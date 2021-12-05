@@ -1,5 +1,7 @@
 package com.tenebris.engine.engine.gfx;
 
+import com.tenebris.engine.engine.util.FileHelper;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -20,6 +22,7 @@ public class Image {
     private int rotOffY = 0;
 
     public Image(String path) {
+        path = FileHelper.getUseablePath(path);
         this.path = path;
 
         BufferedImage image = null;
@@ -40,8 +43,7 @@ public class Image {
             width = image.getWidth();
             height = image.getHeight();
             pixels = image.getRGB(0, 0, width, height, null, 0, width);
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
 
         this.loadedImage = image;
     }
