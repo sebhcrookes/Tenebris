@@ -1,8 +1,10 @@
 package com.tenebris.engine.engine.core;
 
+import com.tenebris.engine.engine.objects.Objects;
 import com.tenebris.engine.engine.states.Game;
 import com.tenebris.engine.engine.util.EngineSettings;
 import com.tenebris.engine.engine.util.ErrorHandler;
+import com.tenebris.engine.engine.util.Log;
 
 import java.awt.event.WindowEvent;
 
@@ -17,6 +19,8 @@ public class GameEngine implements Runnable {
     private EngineSettings settings;
     private EngineAPI api = new EngineAPI();
     private Thread thread;
+
+    private Objects objects;
 
     private boolean running = false;
 
@@ -39,6 +43,8 @@ public class GameEngine implements Runnable {
 
             double frameTime = 0;
             int frames = 0;
+
+            Log.info("Engine initialised successfully");
 
             game.setAPI(api);
             game.init(api);
@@ -64,6 +70,7 @@ public class GameEngine implements Runnable {
                     }
 
                     game.getState().update(api, (float) settings.getUpdateCap());
+                    objects.update(api, (float) settings.getUpdateCap());
 
                     window.update();
                     input.update();
@@ -73,6 +80,7 @@ public class GameEngine implements Runnable {
                     frames++;
                     renderer.clear();
                     game.getState().render(api, renderer);
+                    objects.render(api, renderer);
 
                     renderer.process();
                 } else {
@@ -94,6 +102,8 @@ public class GameEngine implements Runnable {
 
         renderer = new Renderer(this);
         input = new Input(this);
+
+        objects = new Objects(this);
     }
 
     public void start() {
@@ -175,6 +185,10 @@ public class GameEngine implements Runnable {
 
     public void setAPI(EngineAPI api) {
         this.api = api;
+    }
+
+    public Objects getObjects() {
+        return objects;
     }
 
     public int getClearColour() {

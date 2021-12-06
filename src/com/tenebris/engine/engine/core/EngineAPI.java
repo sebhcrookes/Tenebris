@@ -1,5 +1,6 @@
 package com.tenebris.engine.engine.core;
 
+import com.tenebris.engine.engine.objects.Objects;
 import com.tenebris.engine.engine.states.Game;
 import com.tenebris.engine.engine.util.EngineSettings;
 
@@ -84,6 +85,10 @@ public class EngineAPI {
 
     public Game getGame() {
         return engine.getGame();
+    }
+
+    public Objects getObjects() {
+        return engine.getObjects();
     }
 
     public void setClearColour(int clearColour) {
