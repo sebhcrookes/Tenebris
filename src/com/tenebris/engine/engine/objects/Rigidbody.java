@@ -15,6 +15,19 @@ public class Rigidbody extends Component {
 
     @Override
     public void update(EngineAPI api, float dt) {
+
+        RectCollider rect = (RectCollider) parent.getComponent("rect_collider");
+
+        if(rect != null) {
+            if(!rect.isBaseColliding(api, (int) fallDistance + 2)) {
+                applyGravity(dt);
+            } else {
+                fallDistance = 0;
+            }
+        } else applyGravity(dt);
+    }
+
+    private void applyGravity(float dt) {
         fallDistance += dt * Rigidbody.FALL_SPEED;
         this.parent.getPosition().y = parent.getPosition().y + fallDistance;
     }
