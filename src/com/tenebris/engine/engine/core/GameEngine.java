@@ -199,10 +199,6 @@ public class GameEngine implements Runnable {
         }
     }
 
-    public void setClearColour(int clearColour) {
-        renderer.setClearColour(clearColour);
-    }
-
     public int getFps() {
         return fps;
     }

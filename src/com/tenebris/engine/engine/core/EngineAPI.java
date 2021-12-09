@@ -8,8 +8,7 @@ public class EngineAPI {
 
     private GameEngine engine;
 
-    public EngineAPI() {
-    }
+    public EngineAPI() {}
 
     public void init(Game game, EngineSettings engineSettings) {
         this.engine = new GameEngine(game, engineSettings);
@@ -34,34 +33,6 @@ public class EngineAPI {
 
 
     // API Methods
-
-    public int getWidth() {
-        return engine.getSettings().getWidth();
-    }
-
-    public void setWidth(int width) {
-        engine.getSettings().setWidth(width);
-    }
-
-    public int getHeight() {
-        return engine.getSettings().getHeight();
-    }
-
-    public void setHeight(int height) {
-        engine.getSettings().setHeight(height);
-    }
-
-    public String getTitle() {
-        return engine.getSettings().getTitle();
-    }
-
-    public void setTitle(String title) {
-        engine.getSettings().setTitle(title);
-    }
-
-    public float getScale() {
-        return engine.getSettings().getScale();
-    }
 
     public Window getWindow() {
         return engine.getWindow();
@@ -89,9 +60,5 @@ public class EngineAPI {
 
     public Objects getObjects() {
         return engine.getObjects();
-    }
-
-    public void setClearColour(int clearColour) {
-        engine.setClearColour(clearColour);
     }
 }

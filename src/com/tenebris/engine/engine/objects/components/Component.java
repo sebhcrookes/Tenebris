@@ -1,7 +1,8 @@
-package com.tenebris.engine.engine.objects;
+package com.tenebris.engine.engine.objects.components;
 
 import com.tenebris.engine.engine.core.EngineAPI;
 import com.tenebris.engine.engine.core.Renderer;
+import com.tenebris.engine.engine.objects.GameObject;
 
 public abstract class Component {
 

@@ -2,13 +2,16 @@ package com.tenebris.engine.game;
 
 import com.tenebris.engine.engine.core.EngineAPI;
 import com.tenebris.engine.engine.core.Renderer;
+import com.tenebris.engine.engine.objects.ObjectHandle;
+import com.tenebris.engine.engine.objects.builtins.TestPlatform;
+import com.tenebris.engine.engine.objects.builtins.TestPlayer;
 import com.tenebris.engine.engine.states.State;
 
 public class GameState extends State {
 
     @Override
     public void init(EngineAPI api) {
-        api.setClearColour(0xFF18191A);
+        api.getRenderer().setClearColour(0xFF18191A);
     }
 
     @Override

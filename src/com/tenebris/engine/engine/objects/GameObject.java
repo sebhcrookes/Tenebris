@@ -2,6 +2,7 @@ package com.tenebris.engine.engine.objects;
 
 import com.tenebris.engine.engine.core.EngineAPI;
 import com.tenebris.engine.engine.core.Renderer;
+import com.tenebris.engine.engine.objects.components.Component;
 import com.tenebris.engine.engine.util.Log;
 import com.tenebris.engine.engine.util.Vector2;
 

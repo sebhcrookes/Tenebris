@@ -20,7 +20,6 @@ public class Renderer {
     private final int screenHeight;
 
     private int clearColour = 0xFF18191A;
-    private int interpolationColour = 0xFF000000;
 
     private final int[] pixels;
     private final int[] zBuffer;
@@ -60,20 +59,7 @@ public class Renderer {
             Arrays.fill(lightBlock, Light.NONE);
         }
 
-        if (clearColour != interpolationColour) {
-            double row = 0;
-            double incrementBy = 0.005;
-
-            for (int y = 0; y < screenHeight; y++) {
-                row += incrementBy;
-                for (int x = 0; x < screenWidth; x++) {
-                    int value = Colour.mixColours(interpolationColour, clearColour, (float) row);
-                    setPixel(x, y, value);
-                }
-            }
-        } else {
-            Arrays.fill(pixels, clearColour);
-        }
+        Arrays.fill(pixels, clearColour);
     }
 
     public void process() {
@@ -254,19 +240,19 @@ public class Renderer {
         }
     }
 
-    public void drawCircle(int offX, int offY, int radius, int colour) {
+    public void drawCircle(int posX, int posY, int radius, int colour) {
 
         // Bresenham's circle drawing algorithm
         // Based on the equation x^2 + y^2 = r^2
 
-        offX = offX + (radius);
-        offY = offY + (radius);
+        posX = posX + (radius);
+        posY = posY + (radius);
         int d = (5 - radius * 4) / 4;
         int x = 0;
         int y = radius;
 
         while (x <= y) {
-            drawCirclePixels(offX, x, offY, y, colour);
+            drawCirclePixels(posX, x, posY, y, colour);
             if (d < 0) {
                 d += 2 * x + 1;
             } else {
@@ -396,15 +382,6 @@ public class Renderer {
 
     public void setClearColour(int clearColour) {
         this.clearColour = clearColour;
-        this.interpolationColour = clearColour;
-    }
-
-    public int getInterpolationColour() {
-        return interpolationColour;
-    }
-
-    public void setInterpolationColour(int interpolateFrom) {
-        this.interpolationColour = interpolateFrom;
     }
 
     public Font getFont() {

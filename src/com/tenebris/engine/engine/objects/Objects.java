@@ -32,12 +32,12 @@ public class Objects {
         }
     }
 
-    public ObjectHandle addObject(GameObject object) {
+    public ObjectHandle add(GameObject object) {
         objects.add(object);
         return new ObjectHandle(object.getUUID());
     }
 
-    public GameObject getObject(ObjectHandle handle) {
+    public GameObject get(ObjectHandle handle) {
         for(int i = 0; i < objects.size(); i++) {
             if(objects.get(i).getUUID().equals(handle.getUUID())) {
                 return objects.get(i);
