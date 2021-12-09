@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Tenebris is a game engine written in Java which uses no external libraries and has no dependencies. 
+Tenebris is a lightweight game engine written in Java which uses no external libraries and has no dependencies, making it easy to start writing your game. Tenebris has a powerful set of lightweight tools and pre-existing code to ensure maintainability and performance.
 
 ## How to install
 
